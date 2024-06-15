@@ -1,0 +1,7 @@
+name: MCME-Base
+version: '${project.version}'
+main: com.mcmiddleearth.base.paper.BukkitBasePlugin
+api-version: 1.20
+load: STARTUP
+authors: [ Eriol_Eandur ]
+description: Base functionality for MCME plugins
