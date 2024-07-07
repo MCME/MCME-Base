@@ -17,6 +17,7 @@ import org.slf4j.Logger;
 public class VelocityBasePlugin {
 
     private final Logger logger;
+
     private final ProxyServer proxyServer;
 
     @Inject
