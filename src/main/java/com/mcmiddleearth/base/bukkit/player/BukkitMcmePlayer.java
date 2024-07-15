@@ -1,7 +1,7 @@
 package com.mcmiddleearth.base.bukkit.player;
 
 import com.mcmiddleearth.base.bukkit.command.BukkitMcmeCommandSender;
-import com.mcmiddleearth.base.core.command.McmePlugin;
+import com.mcmiddleearth.base.core.McmePlugin;
 import com.mcmiddleearth.base.core.player.McmeBackendPlayer;
 import org.bukkit.entity.Player;
 

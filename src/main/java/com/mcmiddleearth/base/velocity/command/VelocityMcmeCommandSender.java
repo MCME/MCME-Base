@@ -1,7 +1,7 @@
 package com.mcmiddleearth.base.velocity.command;
 
 import com.mcmiddleearth.base.core.command.McmeCommandSender;
-import com.mcmiddleearth.base.core.command.McmePlugin;
+import com.mcmiddleearth.base.core.McmePlugin;
 import com.velocitypowered.api.command.CommandSource;
 import net.kyori.adventure.identity.Identity;
 import net.kyori.adventure.text.Component;

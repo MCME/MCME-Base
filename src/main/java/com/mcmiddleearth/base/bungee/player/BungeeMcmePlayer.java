@@ -1,7 +1,7 @@
 package com.mcmiddleearth.base.bungee.player;
 
 import com.mcmiddleearth.base.bungee.command.BungeeMcmeCommandSender;
-import com.mcmiddleearth.base.core.command.McmePlugin;
+import com.mcmiddleearth.base.core.McmePlugin;
 import com.mcmiddleearth.base.core.player.McmeProxyPlayer;
 import net.md_5.bungee.api.connection.ProxiedPlayer;
 

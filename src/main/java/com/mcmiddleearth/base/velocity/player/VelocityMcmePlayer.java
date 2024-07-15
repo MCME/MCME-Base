@@ -1,6 +1,6 @@
 package com.mcmiddleearth.base.velocity.player;
 
-import com.mcmiddleearth.base.core.command.McmePlugin;
+import com.mcmiddleearth.base.core.McmePlugin;
 import com.mcmiddleearth.base.core.player.McmeProxyPlayer;
 import com.mcmiddleearth.base.velocity.command.VelocityMcmeCommandSender;
 import com.velocitypowered.api.proxy.Player;

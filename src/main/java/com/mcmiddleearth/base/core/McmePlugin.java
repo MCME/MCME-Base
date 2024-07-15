@@ -1,4 +1,4 @@
-package com.mcmiddleearth.base.core.command;
+package com.mcmiddleearth.base.core;
 
 import net.kyori.adventure.text.Component;
 
