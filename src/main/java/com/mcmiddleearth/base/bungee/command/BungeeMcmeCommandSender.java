@@ -1,7 +1,7 @@
 package com.mcmiddleearth.base.bungee.command;
 
 import com.mcmiddleearth.base.core.command.McmeCommandSender;
-import com.mcmiddleearth.base.core.command.McmePlugin;
+import com.mcmiddleearth.base.core.plugin.McmePlugin;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.serializer.bungeecord.BungeeComponentSerializer;
 import net.md_5.bungee.api.CommandSender;

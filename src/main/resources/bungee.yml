@@ -1,5 +1,5 @@
 name: MCME-Base
 version: '${project.version}'
-main: com.mcmiddleearth.base.bungee.BungeeBasePlugin
+main: com.mcmiddleearth.base.BungeeBasePlugin
 description: Base functionality for MCME plugins
 author: Eriol_Eandur

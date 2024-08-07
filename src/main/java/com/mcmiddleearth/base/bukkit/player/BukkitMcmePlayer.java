@@ -1,9 +1,12 @@
 package com.mcmiddleearth.base.bukkit.player;
 
 import com.mcmiddleearth.base.bukkit.command.BukkitMcmeCommandSender;
-import com.mcmiddleearth.base.core.command.McmePlugin;
+import com.mcmiddleearth.base.core.plugin.McmePlugin;
 import com.mcmiddleearth.base.core.player.McmeBackendPlayer;
+import net.kyori.adventure.text.Component;
+import net.kyori.adventure.text.serializer.bungeecord.BungeeComponentSerializer;
 import org.bukkit.entity.Player;
+import org.bukkit.event.player.PlayerKickEvent;
 
 import java.util.UUID;
 
@@ -27,4 +30,10 @@ public class BukkitMcmePlayer extends BukkitMcmeCommandSender implements McmeBac
     public Player getBukkitPlayer() {
         return (Player) getBukkitCommandSender();
     }
+
+    @Override
+    public void disconnect(Component message) {
+        getBukkitPlayer().kick(message);
+    }
+
 }

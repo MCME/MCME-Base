@@ -1,7 +1,7 @@
 package com.mcmiddleearth.base.bukkit.command;
 
 import com.mcmiddleearth.base.core.command.McmeCommandSender;
-import com.mcmiddleearth.base.core.command.McmePlugin;
+import com.mcmiddleearth.base.core.plugin.McmePlugin;
 import net.kyori.adventure.text.Component;
 import org.bukkit.command.CommandSender;
 

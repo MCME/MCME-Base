@@ -1,5 +1,7 @@
 package com.mcmiddleearth.base.core.command;
 
+import com.mcmiddleearth.base.core.plugin.McmePlugin;
+import com.mcmiddleearth.base.core.Style;
 import net.kyori.adventure.text.Component;
 
 public interface McmeCommandSender {
