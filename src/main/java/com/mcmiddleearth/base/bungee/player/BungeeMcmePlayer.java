@@ -1,9 +1,11 @@
 package com.mcmiddleearth.base.bungee.player;
 
 import com.mcmiddleearth.base.bungee.command.BungeeMcmeCommandSender;
+import com.mcmiddleearth.base.bungee.server.BungeeMcmeServerInfo;
 import com.mcmiddleearth.base.core.plugin.McmePlugin;
 import com.mcmiddleearth.base.core.player.McmeProxyPlayer;
 import com.mcmiddleearth.base.core.server.McmeServerInfo;
+import com.mcmiddleearth.base.core.taskScheduling.Callback;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.serializer.bungeecord.BungeeComponentSerializer;
 import net.md_5.bungee.api.connection.ProxiedPlayer;
@@ -37,12 +39,15 @@ public class BungeeMcmePlayer extends BungeeMcmeCommandSender implements McmePro
 
     @Override
     public McmeServerInfo getServerInfo() {
-        return new McmeServerInfo(player.getServer().getInfo().getSocketAddress(),
-                                  player.getServer().getInfo().getName());
+        return new BungeeMcmeServerInfo(player.getServer().getInfo());
     }
 
     @Override
     public void disconnect(Component message) {
         player.disconnect(BungeeComponentSerializer.get().serialize(message));
+    }
+
+    public void connect(McmeServerInfo target, Callback<Boolean> callback) {
+        player.connect(((BungeeMcmeServerInfo)target).toBungeeServerInfo(), callback::done);
     }
 }

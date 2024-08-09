@@ -4,6 +4,7 @@ import com.mcmiddleearth.base.core.server.McmeProxy;
 import com.mcmiddleearth.base.core.server.McmeServerInfo;
 import com.velocitypowered.api.proxy.ProxyServer;
 import com.velocitypowered.api.proxy.server.RegisteredServer;
+import net.kyori.adventure.text.Component;
 
 import java.util.Collection;
 
@@ -24,5 +25,15 @@ public class VelocityMcmeProxy implements McmeProxy {
     @Override
     public Collection<McmeServerInfo> getAllServerInfo() {
         return null;
+    }
+
+    @Override
+    public void stop(Component message) {
+        proxyServer.shutdown(message);
+    }
+
+    @Override
+    public void broadcast(Component message) {
+        proxyServer.sendMessage(message);
     }
 }

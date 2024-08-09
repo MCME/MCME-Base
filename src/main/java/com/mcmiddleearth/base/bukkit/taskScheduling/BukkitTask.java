@@ -36,7 +36,7 @@ public class BukkitTask extends BackendTask {
     }
 
     @Override
-    public void cancelTask() {
+    public void cancel() {
         if(task!=null) {
             task.cancel();
         }

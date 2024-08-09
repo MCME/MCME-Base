@@ -4,6 +4,7 @@ import com.mcmiddleearth.base.core.command.McmeCommandSender;
 import com.mcmiddleearth.base.core.player.McmeProxyPlayer;
 import com.mcmiddleearth.base.core.plugin.McmeProxyPlugin;
 import com.mcmiddleearth.base.core.server.McmeProxy;
+import com.mcmiddleearth.base.core.server.McmeServerInfo;
 import com.mcmiddleearth.base.core.taskScheduling.Task;
 import com.mcmiddleearth.base.velocity.command.VelocityMcmeCommandSender;
 import com.mcmiddleearth.base.velocity.server.VelocityMcmeProxy;
@@ -36,6 +37,11 @@ public abstract class AbstractVelocityPlugin implements McmeProxyPlugin {
 
     @Override
     public Collection<McmeProxyPlayer> getPlayers() {
+        return null;
+    }
+
+    @Override
+    public Collection<McmeProxyPlayer> getPlayers(McmeServerInfo serverInfo) {
         return null;
     }
 

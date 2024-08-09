@@ -1,5 +1,7 @@
 package com.mcmiddleearth.base.core.server;
 
+import net.kyori.adventure.text.Component;
+
 import java.util.Collection;
 
 public interface McmeProxy {
@@ -8,5 +10,7 @@ public interface McmeProxy {
 
     Collection<McmeServerInfo> getAllServerInfo();
 
+    void stop(Component message);
 
+    void broadcast(Component message);
 }

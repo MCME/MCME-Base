@@ -29,7 +29,7 @@ public class BungeeTask extends Task {
     }
 
     @Override
-    public void cancelTask() {
+    public void cancel() {
         if(task!=null) {
             task.cancel();
         }

@@ -30,7 +30,7 @@ public class VelocityTask extends Task {
     }
 
     @Override
-    public void cancelTask() {
+    public void cancel() {
         task.cancel();
     }
 }

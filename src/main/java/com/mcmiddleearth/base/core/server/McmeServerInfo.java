@@ -2,21 +2,9 @@ package com.mcmiddleearth.base.core.server;
 
 import java.net.SocketAddress;
 
-public class McmeServerInfo {
+public interface McmeServerInfo {
 
-    private final SocketAddress socketAddress;
-    private final String name;
+    SocketAddress getSocketAddress();
 
-    public McmeServerInfo(SocketAddress socketAddress, String name) {
-        this.socketAddress = socketAddress;
-        this.name = name;
-    }
-
-    public SocketAddress getSocketAddress() {
-        return socketAddress;
-    }
-
-    public String getName() {
-        return name;
-    }
+    public String getName();
 }

@@ -3,11 +3,13 @@ package com.mcmiddleearth.base.bungee;
 import com.mcmiddleearth.base.bungee.command.BungeeMcmeCommandSender;
 import com.mcmiddleearth.base.bungee.player.BungeeMcmePlayer;
 import com.mcmiddleearth.base.bungee.server.BungeeMcmeProxy;
+import com.mcmiddleearth.base.bungee.server.BungeeMcmeServerInfo;
 import com.mcmiddleearth.base.bungee.taskScheduling.BungeeTask;
 import com.mcmiddleearth.base.core.command.McmeCommandSender;
 import com.mcmiddleearth.base.core.player.McmeProxyPlayer;
 import com.mcmiddleearth.base.core.plugin.McmeProxyPlugin;
 import com.mcmiddleearth.base.core.server.McmeProxy;
+import com.mcmiddleearth.base.core.server.McmeServerInfo;
 import com.mcmiddleearth.base.core.taskScheduling.Task;
 import net.kyori.adventure.platform.bungeecord.BungeeAudiences;
 import net.md_5.bungee.api.ProxyServer;
@@ -22,7 +24,7 @@ public abstract class AbstractBungeePlugin extends Plugin implements McmeProxyPl
 
     private BungeeAudiences adventure;
 
-    private final BungeeMcmeProxy mcmeProxy = new BungeeMcmeProxy();
+    private final BungeeMcmeProxy mcmeProxy = new BungeeMcmeProxy(this);
 
     @Override
     public void onEnable() {
@@ -37,6 +39,12 @@ public abstract class AbstractBungeePlugin extends Plugin implements McmeProxyPl
     @Override
     public Collection<McmeProxyPlayer> getPlayers() {
         return ProxyServer.getInstance().getPlayers().stream()
+                .map(player -> new BungeeMcmePlayer(this, player)).collect(Collectors.toList());
+    }
+
+    @Override
+    public Collection<McmeProxyPlayer> getPlayers(McmeServerInfo serverInfo) {
+        return ((BungeeMcmeServerInfo)serverInfo).toBungeeServerInfo().getPlayers().stream()
                 .map(player -> new BungeeMcmePlayer(this, player)).collect(Collectors.toList());
     }
 
@@ -72,4 +80,6 @@ public abstract class AbstractBungeePlugin extends Plugin implements McmeProxyPl
     public McmeProxy getMcmeProxy() {
         return mcmeProxy;
     }
+
+
 }

@@ -18,5 +18,5 @@ public abstract class Task {
 
     public abstract void scheduleRepeating(long delay, long period, TimeUnit timeUnit);
 
-    public abstract void cancelTask();
+    public abstract void cancel();
 }
