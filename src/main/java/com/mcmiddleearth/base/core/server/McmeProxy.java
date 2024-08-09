@@ -13,4 +13,7 @@ public interface McmeProxy {
     void stop(Component message);
 
     void broadcast(Component message);
+
+    boolean sendPluginMessage(McmeServerInfo server, String channel, byte[] data, boolean queue);
+
 }

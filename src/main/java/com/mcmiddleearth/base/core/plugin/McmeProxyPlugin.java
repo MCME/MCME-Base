@@ -3,6 +3,7 @@ package com.mcmiddleearth.base.core.plugin;
 import com.mcmiddleearth.base.core.player.McmeProxyPlayer;
 import com.mcmiddleearth.base.core.server.McmeProxy;
 import com.mcmiddleearth.base.core.server.McmeServerInfo;
+import org.jetbrains.annotations.Nullable;
 
 import java.util.Collection;
 import java.util.UUID;

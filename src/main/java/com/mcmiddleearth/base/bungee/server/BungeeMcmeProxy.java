@@ -40,4 +40,9 @@ public class BungeeMcmeProxy implements McmeProxy {
     public void broadcast(Component message) {
         plugin.getAdventure().players().sendMessage(message);
     }
+
+    @Override
+    public boolean sendPluginMessage(McmeServerInfo server, String channel, byte[] data, boolean queue) {
+        return ((BungeeMcmeServerInfo)server).toBungeeServerInfo().sendData(channel, data, queue);
+    }
 }

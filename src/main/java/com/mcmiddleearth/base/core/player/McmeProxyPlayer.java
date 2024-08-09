@@ -9,9 +9,11 @@ public interface McmeProxyPlayer extends McmePlayer {
 
     SocketAddress getSocketAddress();
 
-    void sendDataToBackend(String channel, byte[] data, boolean queue);
+    boolean sendDataToBackend(String channel, byte[] data, boolean queue);
 
     void connect(McmeServerInfo target, Callback<Boolean> callback);
 
     McmeServerInfo getServerInfo();
+
+    boolean isConnected();
 }

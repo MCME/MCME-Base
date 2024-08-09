@@ -1,17 +1,20 @@
 package com.mcmiddleearth.base.bungee;
 
 import com.mcmiddleearth.base.bungee.command.BungeeMcmeCommandSender;
+import com.mcmiddleearth.base.bungee.logger.BungeeMcmeLogger;
 import com.mcmiddleearth.base.bungee.player.BungeeMcmePlayer;
 import com.mcmiddleearth.base.bungee.server.BungeeMcmeProxy;
 import com.mcmiddleearth.base.bungee.server.BungeeMcmeServerInfo;
 import com.mcmiddleearth.base.bungee.taskScheduling.BungeeTask;
 import com.mcmiddleearth.base.core.command.McmeCommandSender;
+import com.mcmiddleearth.base.core.logger.McmeLogger;
 import com.mcmiddleearth.base.core.player.McmeProxyPlayer;
 import com.mcmiddleearth.base.core.plugin.McmeProxyPlugin;
 import com.mcmiddleearth.base.core.server.McmeProxy;
 import com.mcmiddleearth.base.core.server.McmeServerInfo;
 import com.mcmiddleearth.base.core.taskScheduling.Task;
 import net.kyori.adventure.platform.bungeecord.BungeeAudiences;
+import net.kyori.adventure.text.serializer.plain.PlainTextComponentSerializer;
 import net.md_5.bungee.api.ProxyServer;
 import net.md_5.bungee.api.connection.ProxiedPlayer;
 import net.md_5.bungee.api.plugin.Plugin;
@@ -23,12 +26,14 @@ import java.util.stream.Collectors;
 public abstract class AbstractBungeePlugin extends Plugin implements McmeProxyPlugin {
 
     private BungeeAudiences adventure;
+    private McmeLogger mcmeLogger;
 
     private final BungeeMcmeProxy mcmeProxy = new BungeeMcmeProxy(this);
 
     @Override
     public void onEnable() {
         adventure = BungeeAudiences.create(this);
+        mcmeLogger = new BungeeMcmeLogger(getLogger(), PlainTextComponentSerializer.plainText().serialize(getMessagePrefix()));
     }
 
     @Override
@@ -50,12 +55,14 @@ public abstract class AbstractBungeePlugin extends Plugin implements McmeProxyPl
 
     @Override
     public McmeProxyPlayer getPlayer(UUID uuid) {
-        return new BungeeMcmePlayer(this, ProxyServer.getInstance().getPlayer(uuid));
+        ProxiedPlayer proxiedPlayer = ProxyServer.getInstance().getPlayer(uuid);
+        return proxiedPlayer!=null ? new BungeeMcmePlayer(this, proxiedPlayer) : null;
     }
 
     @Override
     public McmeProxyPlayer getPlayer(String playerName) {
-        return new BungeeMcmePlayer(this, ProxyServer.getInstance().getPlayer(playerName));
+        ProxiedPlayer proxiedPlayer = ProxyServer.getInstance().getPlayer(playerName);
+        return proxiedPlayer!=null ? new BungeeMcmePlayer(this, proxiedPlayer) : null;
     }
 
     public McmeProxyPlayer getPlayer(ProxiedPlayer player) {
@@ -81,5 +88,8 @@ public abstract class AbstractBungeePlugin extends Plugin implements McmeProxyPl
         return mcmeProxy;
     }
 
-
+    @Override
+    public McmeLogger getMcmeLogger() {
+        return mcmeLogger;
+    }
 }

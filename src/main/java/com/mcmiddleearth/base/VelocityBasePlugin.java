@@ -22,11 +22,15 @@ import java.nio.file.Path;
 )
 public class VelocityBasePlugin extends AbstractVelocityPlugin {
 
+    private static Object instance;
+
     private final Path dataDirectory;
+
     @Inject
     public VelocityBasePlugin(ProxyServer proxyServer, Logger logger, @DataDirectory Path dataDirectory) {
         super(logger, proxyServer);
         this.dataDirectory = dataDirectory;
+        instance = this;
     }
 
     @Subscribe
@@ -42,5 +46,9 @@ public class VelocityBasePlugin extends AbstractVelocityPlugin {
     @Override
     public File getDataFolder() {
         return dataDirectory.toFile();
+    }
+
+    public static Object getInstance() {
+        return instance;
     }
 }

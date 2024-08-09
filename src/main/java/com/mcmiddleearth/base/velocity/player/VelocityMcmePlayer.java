@@ -6,10 +6,10 @@ import com.mcmiddleearth.base.core.server.McmeServerInfo;
 import com.mcmiddleearth.base.core.taskScheduling.Callback;
 import com.mcmiddleearth.base.velocity.AbstractVelocityPlugin;
 import com.mcmiddleearth.base.velocity.command.VelocityMcmeCommandSender;
-import com.velocitypowered.api.proxy.ConnectionRequestBuilder;
 import com.velocitypowered.api.proxy.Player;
 import com.velocitypowered.api.proxy.ProxyServer;
-import com.velocitypowered.api.proxy.server.RegisteredServer;
+import com.velocitypowered.api.proxy.ServerConnection;
+import com.velocitypowered.api.proxy.messages.MinecraftChannelIdentifier;
 import net.kyori.adventure.text.Component;
 
 import java.net.SocketAddress;
@@ -37,8 +37,9 @@ public class VelocityMcmePlayer extends VelocityMcmeCommandSender implements Mcm
     }
 
     @Override
-    public void sendDataToBackend(String channel, byte[] data, boolean queue) {
-
+    public boolean sendDataToBackend(String channel, byte[] data, boolean queue) {
+        ServerConnection server = player.getCurrentServer().orElse(null);
+        return server != null && server.sendPluginMessage(MinecraftChannelIdentifier.from(channel), data);
     }
 
     @Override
@@ -63,5 +64,10 @@ public class VelocityMcmePlayer extends VelocityMcmeCommandSender implements Mcm
                 }
             });
         });
+    }
+
+    @Override
+    public boolean isConnected() {
+        return player.getCurrentServer() != null;
     }
 }

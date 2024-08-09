@@ -33,13 +33,17 @@ public class BungeeMcmePlayer extends BungeeMcmeCommandSender implements McmePro
     }
 
     @Override
-    public void sendDataToBackend(String channel, byte[] data, boolean queue) {
-        player.getServer().getInfo().sendData(channel, data,queue);
+    public boolean sendDataToBackend(String channel, byte[] data, boolean queue) {
+        return player.getServer().getInfo().sendData(channel, data,queue);
     }
 
     @Override
     public McmeServerInfo getServerInfo() {
-        return new BungeeMcmeServerInfo(player.getServer().getInfo());
+        if(player.getServer()!=null) {
+            return new BungeeMcmeServerInfo(player.getServer().getInfo());
+        } else {
+            return null;
+        }
     }
 
     @Override
@@ -49,5 +53,14 @@ public class BungeeMcmePlayer extends BungeeMcmeCommandSender implements McmePro
 
     public void connect(McmeServerInfo target, Callback<Boolean> callback) {
         player.connect(((BungeeMcmeServerInfo)target).toBungeeServerInfo(), callback::done);
+    }
+
+    @Override
+    public boolean isConnected() {
+        return player.isConnected();
+    }
+
+    public ProxiedPlayer getProxiedPlayer() {
+        return player;
     }
 }
