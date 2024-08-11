@@ -2,7 +2,9 @@ package com.mcmiddleearth.base.core.command;
 
 import com.mcmiddleearth.base.core.plugin.McmePlugin;
 import com.mcmiddleearth.base.core.Style;
+import com.mcmiddleearth.base.core.util.MessageUtil;
 import net.kyori.adventure.text.Component;
+import net.kyori.adventure.text.format.TextColor;
 
 public interface McmeCommandSender {
 
@@ -13,17 +15,20 @@ public interface McmeCommandSender {
     McmePlugin getPlugin();
 
     default void sendInfo(Component message) {
-        Component result = getPlugin().getMessagePrefix().append(Component.text(" ").color(Style.INFO));
-        result = result.append(message.color(Style.INFO));
-        sendMessage(result);
+        sendPrefixedMessage(Style.INFO, message);
     }
 
     default void sendError(Component message) {
-        Component result = getPlugin().getMessagePrefix().append(Component.text(" ").color(Style.ERROR));
-        result = result.append(message.color(Style.ERROR));
-        sendMessage(result);
+        sendPrefixedMessage(Style.ERROR, message);
+    }
+
+    default void sendPrefixedMessage(TextColor color, Component message) {
+        sendMessage(color, getPlugin().getMessagePrefix().append(message));
+    }
+
+    default void sendMessage(TextColor baseColor, Component message) {
+        sendMessage(MessageUtil.addBaseColor(baseColor, message));
     }
 
     void sendMessage(Component message);
-
 }

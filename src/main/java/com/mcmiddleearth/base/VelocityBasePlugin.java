@@ -24,12 +24,9 @@ public class VelocityBasePlugin extends AbstractVelocityPlugin {
 
     private static Object instance;
 
-    private final Path dataDirectory;
-
     @Inject
     public VelocityBasePlugin(ProxyServer proxyServer, Logger logger, @DataDirectory Path dataDirectory) {
-        super(logger, proxyServer);
-        this.dataDirectory = dataDirectory;
+        super(logger, proxyServer, dataDirectory);
         instance = this;
     }
 
@@ -41,11 +38,6 @@ public class VelocityBasePlugin extends AbstractVelocityPlugin {
     @Override
     public Component getMessagePrefix() {
         return Component.text("[MCME-Base]");
-    }
-
-    @Override
-    public File getDataFolder() {
-        return dataDirectory.toFile();
     }
 
     public static Object getInstance() {

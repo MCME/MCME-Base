@@ -5,6 +5,7 @@ import com.mcmiddleearth.base.core.plugin.McmePlugin;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.serializer.bungeecord.BungeeComponentSerializer;
 import net.md_5.bungee.api.CommandSender;
+import net.md_5.bungee.api.chat.BaseComponent;
 
 public class BungeeMcmeCommandSender implements McmeCommandSender {
 
@@ -33,6 +34,9 @@ public class BungeeMcmeCommandSender implements McmeCommandSender {
 
     @Override
     public void sendMessage(Component message) {
-        commandSender.sendMessage(BungeeComponentSerializer.get().serialize(message));
+        BaseComponent[] baseComponents = BungeeComponentSerializer.get().serialize(message);
+        //Logger.getGlobal().info("Sender: "+commandSender.toString());
+        //Arrays.stream(baseComponents).forEach(component -> Logger.getGlobal().info(component.toLegacyText()));
+        commandSender.sendMessage(baseComponents);
     }
 }

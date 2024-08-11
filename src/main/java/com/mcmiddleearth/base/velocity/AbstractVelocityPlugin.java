@@ -15,6 +15,8 @@ import com.velocitypowered.api.proxy.ProxyServer;
 import net.kyori.adventure.text.serializer.plain.PlainTextComponentSerializer;
 import org.slf4j.Logger;
 
+import java.io.File;
+import java.nio.file.Path;
 import java.util.Collection;
 import java.util.UUID;
 
@@ -23,11 +25,13 @@ public abstract class AbstractVelocityPlugin implements McmeProxyPlugin {
     private final McmeLogger mcmeLogger;
     private final ProxyServer proxyServer;
     private final VelocityMcmeProxy mcmeProxy;
+    private final File dataFolder;
 
-    public AbstractVelocityPlugin(Logger logger, ProxyServer proxyServer) {
+    public AbstractVelocityPlugin(Logger logger, ProxyServer proxyServer, Path dataDirectory) {
         this.proxyServer = proxyServer;
         mcmeProxy = new VelocityMcmeProxy(proxyServer);
         mcmeLogger = new VelocityMcmeLogger(logger, PlainTextComponentSerializer.plainText().serialize(getMessagePrefix()));
+        this.dataFolder = dataDirectory.toFile();
     }
 
     @Override
@@ -37,6 +41,11 @@ public abstract class AbstractVelocityPlugin implements McmeProxyPlugin {
 
     public ProxyServer getProxyServer() {
         return proxyServer;
+    }
+
+    @Override
+    public File getDataFolder() {
+        return dataFolder;
     }
 
     @Override

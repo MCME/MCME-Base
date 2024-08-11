@@ -1,10 +1,9 @@
 package com.mcmiddleearth.base.core.configuration;
 
+import org.yaml.snakeyaml.DumperOptions;
 import org.yaml.snakeyaml.Yaml;
 
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
+import java.io.*;
 import java.util.*;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -24,6 +23,17 @@ public class YamlConfiguration {
             map = yaml.load(new FileInputStream(file));
         } catch (FileNotFoundException ex) {
             Logger.getLogger(YamlConfiguration.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+
+    public void save(File file) {
+        DumperOptions options = new DumperOptions();
+        options.setDefaultFlowStyle(DumperOptions.FlowStyle.BLOCK);
+        Yaml yaml = new Yaml(options);
+        try(FileWriter out = new FileWriter(file)) {
+            yaml.dump(map, out);
+        } catch (IOException e) {
+            e.printStackTrace();
         }
     }
 
@@ -101,4 +111,29 @@ public class YamlConfiguration {
     public Set<String> getKeys() {
         return map.keySet();
     }
+
+    public Map<String, Object> getMap() {
+        return map;
+    }
+
+    public void set(String key, Object value) {
+        set(map, key.split("\\."), value);
+    }
+
+    public void set(Map<String,Object> submap, String[] subkeys, Object value) {
+        if(subkeys.length>1) {
+            if(submap.containsKey(subkeys[0]) && (submap.get(subkeys[0]) instanceof Map)) {
+                set((Map<String,Object>)submap.get(subkeys[0]),
+                        Arrays.copyOfRange(subkeys, 1, subkeys.length),value);
+            } else {
+                Map<String, Object> insertion = new HashMap<>();
+                submap.put(subkeys[0],insertion);
+                set(insertion, Arrays.copyOfRange(subkeys, 1, subkeys.length),value);
+            }
+        } else {
+            submap.put(subkeys[0],value);
+        }
+    }
+
+
 }

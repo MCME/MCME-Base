@@ -45,21 +45,24 @@
                                 <includes>
                                     <include>net.kyori:adventure-api</include>
                                     <include>net.kyori:adventure-key</include>
+                                    <include>net.kyori:option</include>
                                     <include>net.kyori:adventure-platform-api</include>
                                     <include>net.kyori:adventure-platform-bungeecord</include>
                                     <include>net.kyori:adventure-text-serializer-bungeecord</include>
                                     <include>net.kyori:adventure-text-serializer-gson</include>
+                                    <include>net.kyori:adventure-text-serializer-json</include>
+                                    <include>net.kyori:adventure-text-serializer-plain</include>
                                     <include>net.kyori:adventure-text-serializer-legacy</include>
                                     <include>net.kyori:adventure-platform-facet</include>
                                     <include>net.kyori:examination-api</include>
                                 </includes>
                             </artifactSet>
-                            <!--<relocations>
+                            <relocations>
                                 <relocation>
                                     <pattern>net.kyori</pattern>
                                     <shadedPattern>com.mcmiddleearth.base.net.kyori</shadedPattern>
                                 </relocation>
-                            </relocations>-->
+                            </relocations>
                         </configuration>
                     </execution>
                 </executions>
@@ -110,8 +113,23 @@
         </dependency>
         <dependency>
             <groupId>net.kyori</groupId>
+            <artifactId>adventure-text-serializer-plain</artifactId>
+            <version>4.17.0</version>
+        </dependency>
+        <dependency>
+            <groupId>net.kyori</groupId>
+            <artifactId>adventure-text-serializer-gson</artifactId>
+            <version>4.17.0</version>
+        </dependency>
+        <dependency>
+            <groupId>net.kyori</groupId>
+            <artifactId>adventure-text-serializer-legacy</artifactId>
+            <version>4.17.0</version>
+        </dependency>
+        <dependency>
+            <groupId>net.kyori</groupId>
             <artifactId>adventure-platform-bungeecord</artifactId>
-            <version>4.3.3</version>
+            <version>4.3.4</version>
         </dependency>
     </dependencies>
 </project>
