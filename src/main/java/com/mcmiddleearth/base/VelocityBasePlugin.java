@@ -1,6 +1,7 @@
 package com.mcmiddleearth.base;
 
 import com.google.inject.Inject;
+import com.mcmiddleearth.base.core.message.Message;
 import com.mcmiddleearth.base.velocity.AbstractVelocityPlugin;
 import com.velocitypowered.api.event.Subscribe;
 import com.velocitypowered.api.event.proxy.ProxyInitializeEvent;
@@ -10,7 +11,6 @@ import com.velocitypowered.api.proxy.ProxyServer;
 import net.kyori.adventure.text.Component;
 import org.slf4j.Logger;
 
-import java.io.File;
 import java.nio.file.Path;
 
 @Plugin(
@@ -32,15 +32,15 @@ public class VelocityBasePlugin extends AbstractVelocityPlugin {
 
     @Subscribe
     public void onProxyInitialization(ProxyInitializeEvent event) {
-        getConsole().sendInfo(Component.text("Initialized on Velocity proxy!"));
+        getMcmeProxy().getConsole().sendMessage(createInfoMessage().add("Initialized on Velocity proxy!"));
     }
 
     @Override
-    public Component getMessagePrefix() {
-        return Component.text("[MCME-Base]");
+    public Message getMessagePrefix() {
+        return createMessage().add("[MCME-Base] ");
     }
 
-    public static Object getInstance() {
-        return instance;
+    public static VelocityBasePlugin getInstance() {
+        return (VelocityBasePlugin) instance;
     }
 }

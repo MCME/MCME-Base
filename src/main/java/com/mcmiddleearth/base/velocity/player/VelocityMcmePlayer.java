@@ -1,16 +1,15 @@
 package com.mcmiddleearth.base.velocity.player;
 
+import com.mcmiddleearth.base.VelocityBasePlugin;
+import com.mcmiddleearth.base.core.message.Message;
 import com.mcmiddleearth.base.core.player.McmeProxyPlayer;
-import com.mcmiddleearth.base.core.plugin.McmePlugin;
 import com.mcmiddleearth.base.core.server.McmeServerInfo;
 import com.mcmiddleearth.base.core.taskScheduling.Callback;
-import com.mcmiddleearth.base.velocity.AbstractVelocityPlugin;
 import com.mcmiddleearth.base.velocity.command.VelocityMcmeCommandSender;
 import com.velocitypowered.api.proxy.Player;
 import com.velocitypowered.api.proxy.ProxyServer;
 import com.velocitypowered.api.proxy.ServerConnection;
 import com.velocitypowered.api.proxy.messages.MinecraftChannelIdentifier;
-import net.kyori.adventure.text.Component;
 
 import java.net.SocketAddress;
 import java.util.UUID;
@@ -21,8 +20,8 @@ public class VelocityMcmePlayer extends VelocityMcmeCommandSender implements Mcm
 
     private final Player player;
 
-    public VelocityMcmePlayer(McmePlugin plugin, Player player) {
-        super(plugin, player);
+    public VelocityMcmePlayer(Player player) {
+        super(player);
         this.player = player;
     }
 
@@ -48,15 +47,15 @@ public class VelocityMcmePlayer extends VelocityMcmeCommandSender implements Mcm
     }
 
     @Override
-    public void disconnect(Component message) {
+    public void disconnect(Message message) {
     }
 
     @Override
     public void connect(McmeServerInfo target, Callback<Boolean> callback) {
-        ProxyServer proxy = ((AbstractVelocityPlugin)getPlugin()).getProxyServer();
+        ProxyServer proxy = VelocityBasePlugin.getInstance().getProxyServer();
         proxy.getServer(target.getName()).ifPresent(server -> {
             CompletableFuture<Boolean> result = player.createConnectionRequest(server).connectWithIndication();
-            proxy.getScheduler().buildTask(getPlugin(), () -> {
+            proxy.getScheduler().buildTask(VelocityBasePlugin.getInstance(), () -> {
                 try {
                     callback.done(result.get(), null);
                 } catch (InterruptedException | ExecutionException e) {
@@ -68,6 +67,6 @@ public class VelocityMcmePlayer extends VelocityMcmeCommandSender implements Mcm
 
     @Override
     public boolean isConnected() {
-        return player.getCurrentServer() != null;
+        return player.getCurrentServer().isPresent();
     }
 }

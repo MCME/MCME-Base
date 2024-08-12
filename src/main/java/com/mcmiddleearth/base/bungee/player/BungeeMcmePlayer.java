@@ -1,8 +1,9 @@
 package com.mcmiddleearth.base.bungee.player;
 
+import com.mcmiddleearth.base.adventure.AdventureMessage;
 import com.mcmiddleearth.base.bungee.command.BungeeMcmeCommandSender;
 import com.mcmiddleearth.base.bungee.server.BungeeMcmeServerInfo;
-import com.mcmiddleearth.base.core.plugin.McmePlugin;
+import com.mcmiddleearth.base.core.message.Message;
 import com.mcmiddleearth.base.core.player.McmeProxyPlayer;
 import com.mcmiddleearth.base.core.server.McmeServerInfo;
 import com.mcmiddleearth.base.core.taskScheduling.Callback;
@@ -17,8 +18,8 @@ public class BungeeMcmePlayer extends BungeeMcmeCommandSender implements McmePro
 
     private final ProxiedPlayer player;
 
-    public BungeeMcmePlayer(McmePlugin plugin, ProxiedPlayer player) {
-        super(plugin, player);
+    public BungeeMcmePlayer(ProxiedPlayer player) {
+        super(player);
         this.player = player;
     }
 
@@ -47,8 +48,9 @@ public class BungeeMcmePlayer extends BungeeMcmeCommandSender implements McmePro
     }
 
     @Override
-    public void disconnect(Component message) {
-        player.disconnect(BungeeComponentSerializer.get().serialize(message));
+    public void disconnect(Message message) {
+        player.disconnect(BungeeComponentSerializer.get()
+                .serialize(((AdventureMessage)message).getComponent()));
     }
 
     public void connect(McmeServerInfo target, Callback<Boolean> callback) {

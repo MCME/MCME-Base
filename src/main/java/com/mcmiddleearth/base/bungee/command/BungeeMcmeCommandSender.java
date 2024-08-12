@@ -1,7 +1,8 @@
 package com.mcmiddleearth.base.bungee.command;
 
+import com.mcmiddleearth.base.adventure.AdventureMessage;
 import com.mcmiddleearth.base.core.command.McmeCommandSender;
-import com.mcmiddleearth.base.core.plugin.McmePlugin;
+import com.mcmiddleearth.base.core.message.Message;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.serializer.bungeecord.BungeeComponentSerializer;
 import net.md_5.bungee.api.CommandSender;
@@ -10,11 +11,9 @@ import net.md_5.bungee.api.chat.BaseComponent;
 public class BungeeMcmeCommandSender implements McmeCommandSender {
 
     private final CommandSender commandSender;
-    private final McmePlugin plugin;
 
-    public BungeeMcmeCommandSender(McmePlugin plugin, CommandSender commandSender) {
+    public BungeeMcmeCommandSender(CommandSender commandSender) {
         this.commandSender = commandSender;
-        this.plugin = plugin;
     }
 
     @Override
@@ -28,13 +27,8 @@ public class BungeeMcmeCommandSender implements McmeCommandSender {
     }
 
     @Override
-    public McmePlugin getPlugin() {
-        return plugin;
-    }
-
-    @Override
-    public void sendMessage(Component message) {
-        BaseComponent[] baseComponents = BungeeComponentSerializer.get().serialize(message);
+    public void sendMessage(Message message) {
+        BaseComponent[] baseComponents = BungeeComponentSerializer.get().serialize(((AdventureMessage)message).getComponent());
         //Logger.getGlobal().info("Sender: "+commandSender.toString());
         //Arrays.stream(baseComponents).forEach(component -> Logger.getGlobal().info(component.toLegacyText()));
         commandSender.sendMessage(baseComponents);

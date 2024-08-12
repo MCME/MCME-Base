@@ -1,5 +1,6 @@
 package com.mcmiddleearth.base.bukkit;
 
+import com.mcmiddleearth.base.adventure.AdventureMessage;
 import com.mcmiddleearth.base.bukkit.command.BukkitMcmeCommandSender;
 import com.mcmiddleearth.base.bukkit.logger.BukkitMcmeLogger;
 import com.mcmiddleearth.base.bukkit.player.BukkitMcmePlayer;
@@ -28,37 +29,13 @@ public abstract class AbstractPaperPlugin extends JavaPlugin implements McmeBack
     @Override
     public void onEnable() {
         // Plugin startup logic
-        this.mcmeLogger = new BukkitMcmeLogger(getLogger(), PlainTextComponentSerializer.plainText().serialize(getMessagePrefix()));
+        this.mcmeLogger = new BukkitMcmeLogger(getLogger(), PlainTextComponentSerializer.plainText()
+                .serialize(((AdventureMessage)getMessagePrefix()).getComponent()));
     }
 
     @Override
     public void onDisable() {
         // Plugin shutdown logic
-    }
-
-    @Override
-    public Collection<McmeBackendPlayer> getPlayers() {
-        return Bukkit.getOnlinePlayers().stream()
-                .map(player -> new BukkitMcmePlayer(this, player)).collect(Collectors.toList());
-    }
-
-    @Override
-    public McmeBackendPlayer getPlayer(UUID uuid) {
-        return new BukkitMcmePlayer(this, Bukkit.getPlayer(uuid));
-    }
-
-    @Override
-    public McmeBackendPlayer getPlayer(String playerName) {
-        return new BukkitMcmePlayer(this, Bukkit.getPlayer(playerName));
-    }
-
-    public McmeBackendPlayer getPlayer(Player player) {
-        return new BukkitMcmePlayer(this, player);
-    }
-
-    @Override
-    public McmeCommandSender getConsole() {
-        return new BukkitMcmeCommandSender(this, Bukkit.getConsoleSender());
     }
 
     @Override

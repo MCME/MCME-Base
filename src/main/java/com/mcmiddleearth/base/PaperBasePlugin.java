@@ -1,6 +1,7 @@
 package com.mcmiddleearth.base;
 
 import com.mcmiddleearth.base.bukkit.AbstractPaperPlugin;
+import com.mcmiddleearth.base.core.message.Message;
 import net.kyori.adventure.text.Component;
 
 public class PaperBasePlugin extends AbstractPaperPlugin {
@@ -8,12 +9,12 @@ public class PaperBasePlugin extends AbstractPaperPlugin {
     @Override
     public void onEnable() {
         super.onEnable();
-        getConsole().sendInfo(Component.text("Enabled on Paper server!"));
+        getMcmeBackend().getConsole().sendMessage(createInfoMessage().add("Enabled on Paper server!"));
     }
 
     @Override
-    public Component getMessagePrefix() {
-        return Component.text("[MCME-Base]");
+    public Message getMessagePrefix() {
+        return createMessage().add("[MCME-Base] ");
     }
 
 }

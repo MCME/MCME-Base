@@ -1,5 +1,6 @@
 package com.mcmiddleearth.base.velocity;
 
+import com.mcmiddleearth.base.adventure.AdventureMessage;
 import com.mcmiddleearth.base.core.command.McmeCommandSender;
 import com.mcmiddleearth.base.core.logger.McmeLogger;
 import com.mcmiddleearth.base.core.player.McmeProxyPlayer;
@@ -30,7 +31,8 @@ public abstract class AbstractVelocityPlugin implements McmeProxyPlugin {
     public AbstractVelocityPlugin(Logger logger, ProxyServer proxyServer, Path dataDirectory) {
         this.proxyServer = proxyServer;
         mcmeProxy = new VelocityMcmeProxy(proxyServer);
-        mcmeLogger = new VelocityMcmeLogger(logger, PlainTextComponentSerializer.plainText().serialize(getMessagePrefix()));
+        mcmeLogger = new VelocityMcmeLogger(logger, PlainTextComponentSerializer.plainText()
+                .serialize(((AdventureMessage)getMessagePrefix()).getComponent()));
         this.dataFolder = dataDirectory.toFile();
     }
 
@@ -46,34 +48,6 @@ public abstract class AbstractVelocityPlugin implements McmeProxyPlugin {
     @Override
     public File getDataFolder() {
         return dataFolder;
-    }
-
-    @Override
-    public Collection<McmeProxyPlayer> getPlayers() {
-        return null;
-    }
-
-    @Override
-    public Collection<McmeProxyPlayer> getPlayers(McmeServerInfo serverInfo) {
-        return null;
-    }
-
-    @Override
-    public McmeProxyPlayer getPlayer(UUID uuid) {
-        //todo: return null if not exist
-        return null;
-    }
-
-    @Override
-    public McmeProxyPlayer getPlayer(String playerName) {
-
-        //todo: return null if not exist
-        return null;
-    }
-
-    @Override
-    public McmeCommandSender getConsole() {
-        return new VelocityMcmeCommandSender(this, proxyServer.getConsoleCommandSource());
     }
 
     @Override

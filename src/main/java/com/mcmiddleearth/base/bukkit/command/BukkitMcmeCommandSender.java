@@ -1,17 +1,16 @@
 package com.mcmiddleearth.base.bukkit.command;
 
+import com.mcmiddleearth.base.adventure.AdventureMessage;
 import com.mcmiddleearth.base.core.command.McmeCommandSender;
-import com.mcmiddleearth.base.core.plugin.McmePlugin;
+import com.mcmiddleearth.base.core.message.Message;
 import net.kyori.adventure.text.Component;
 import org.bukkit.command.CommandSender;
 
 public class BukkitMcmeCommandSender implements McmeCommandSender {
 
-    private final McmePlugin plugin;
     private final CommandSender commandSender;
 
-    public BukkitMcmeCommandSender(McmePlugin plugin, CommandSender commandSender) {
-        this.plugin = plugin;
+    public BukkitMcmeCommandSender(CommandSender commandSender) {
         this.commandSender = commandSender;
     }
 
@@ -26,13 +25,8 @@ public class BukkitMcmeCommandSender implements McmeCommandSender {
     }
 
     @Override
-    public McmePlugin getPlugin() {
-        return plugin;
-    }
-
-    @Override
-    public void sendMessage(Component message) {
-        commandSender.sendMessage(message);
+    public void sendMessage(Message message) {
+        commandSender.sendMessage(((AdventureMessage)message).getComponent());
     }
 
     public CommandSender getBukkitCommandSender() {

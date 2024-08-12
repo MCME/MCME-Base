@@ -1,23 +1,40 @@
 package com.mcmiddleearth.base.core.plugin;
 
-import com.mcmiddleearth.base.core.command.McmeCommandSender;
+import com.mcmiddleearth.base.adventure.AdventureMessage;
 import com.mcmiddleearth.base.core.logger.McmeLogger;
+import com.mcmiddleearth.base.core.message.McmeColors;
+import com.mcmiddleearth.base.core.message.Message;
+import com.mcmiddleearth.base.core.message.MessageStyle;
 import com.mcmiddleearth.base.core.taskScheduling.Task;
-import net.kyori.adventure.text.Component;
 
 import java.io.*;
 
 public interface McmePlugin {
 
-    Component getMessagePrefix();
+    Message getMessagePrefix();
 
     Task getTask(Runnable runnable);
-
-    McmeCommandSender getConsole();
 
     File getDataFolder();
 
     McmeLogger getMcmeLogger();
+
+    default Message createInfoMessage() {
+        return createPrefixedMessage(new MessageStyle(McmeColors.INFO, MessageStyle.DEFAULT_DECORATION));
+    }
+    default Message createErrorMessage() {
+        return createPrefixedMessage(new MessageStyle(McmeColors.ERROR, MessageStyle.DEFAULT_DECORATION));
+    }
+    default Message createPrefixedMessage(MessageStyle defaultStyle) {
+        return getMessagePrefix().setDefaultStyle(defaultStyle);
+    }
+    default Message createMessage() {
+        return createMessage(MessageStyle.DEFAULT);
+    }
+
+    default Message createMessage(MessageStyle defaultStyle) {
+        return new AdventureMessage(defaultStyle);
+    }
 
     default void saveResourceToFile(String resource, File file) {
         if(!file.getParentFile().exists()) {

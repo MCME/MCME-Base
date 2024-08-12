@@ -1,19 +1,17 @@
 package com.mcmiddleearth.base.velocity.command;
 
+import com.mcmiddleearth.base.adventure.AdventureMessage;
 import com.mcmiddleearth.base.core.command.McmeCommandSender;
-import com.mcmiddleearth.base.core.plugin.McmePlugin;
+import com.mcmiddleearth.base.core.message.Message;
 import com.velocitypowered.api.command.CommandSource;
 import net.kyori.adventure.identity.Identity;
-import net.kyori.adventure.text.Component;
 
 public class VelocityMcmeCommandSender implements McmeCommandSender {
 
     private final CommandSource commandSource;
-    private final McmePlugin plugin;
 
-    public VelocityMcmeCommandSender(McmePlugin plugin, CommandSource commandSource) {
+    public VelocityMcmeCommandSender(CommandSource commandSource) {
         this.commandSource = commandSource;
-        this.plugin = plugin;
     }
 
     @Override
@@ -27,13 +25,8 @@ public class VelocityMcmeCommandSender implements McmeCommandSender {
     }
 
     @Override
-    public McmePlugin getPlugin() {
-        return plugin;
-    }
-
-    @Override
-    public void sendMessage(Component message) {
-        commandSource.sendMessage(message);
+    public void sendMessage(Message message) {
+        commandSource.sendMessage(((AdventureMessage)message).getComponent());
     }
 
     public CommandSource getVelocityCommandSource() {
