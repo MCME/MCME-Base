@@ -6,6 +6,7 @@ import com.mcmiddleearth.base.core.message.McmeColors;
 import com.mcmiddleearth.base.core.message.Message;
 import com.mcmiddleearth.base.core.message.MessageStyle;
 import com.mcmiddleearth.base.core.taskScheduling.Task;
+import net.kyori.adventure.text.serializer.gson.GsonComponentSerializer;
 
 import java.io.*;
 
@@ -34,6 +35,16 @@ public interface McmePlugin {
 
     default Message createMessage(MessageStyle defaultStyle) {
         return new AdventureMessage(defaultStyle);
+    }
+
+    default Message emptyMessage() { return new AdventureMessage(); }
+
+    default Message deserializeMessage(String message) {
+        return new AdventureMessage(GsonComponentSerializer.gson().deserialize(message));
+    }
+
+    default String serializeMessage(Message message) {
+        return GsonComponentSerializer.gson().serialize(((AdventureMessage)message).getComponent());
     }
 
     default void saveResourceToFile(String resource, File file) {

@@ -1,9 +1,11 @@
 package com.mcmiddleearth.base.bungee.server;
 
+import com.mcmiddleearth.base.adventure.AdventureMessage;
 import com.mcmiddleearth.base.bungee.AbstractBungeePlugin;
 import com.mcmiddleearth.base.bungee.command.BungeeMcmeCommandSender;
 import com.mcmiddleearth.base.bungee.player.BungeeMcmePlayer;
 import com.mcmiddleearth.base.core.command.McmeCommandSender;
+import com.mcmiddleearth.base.core.message.Message;
 import com.mcmiddleearth.base.core.player.McmeProxyPlayer;
 import com.mcmiddleearth.base.core.server.McmeProxy;
 import com.mcmiddleearth.base.core.server.McmeServerInfo;
@@ -38,13 +40,14 @@ public class BungeeMcmeProxy implements McmeProxy {
     }
 
     @Override
-    public void stop(Component message) {
-        ProxyServer.getInstance().stop(PlainTextComponentSerializer.plainText().serialize(message));
+    public void stop(Message message) {
+        ProxyServer.getInstance().stop(PlainTextComponentSerializer.plainText()
+                .serialize(((AdventureMessage)message).getComponent()));
     }
 
     @Override
-    public void broadcast(Component message) {
-        plugin.getAdventure().players().sendMessage(message);
+    public void broadcast(Message message) {
+        plugin.getAdventure().players().sendMessage(((AdventureMessage)message).getComponent());
     }
 
     @Override

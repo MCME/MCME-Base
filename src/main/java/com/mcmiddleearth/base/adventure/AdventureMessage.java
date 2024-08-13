@@ -9,19 +9,19 @@ public class AdventureMessage implements Message {
 
     private Component component;
 
-    private MessageStyle defaultStyle;
-
     public AdventureMessage() {
         component = Component.empty();
     }
 
     public AdventureMessage(MessageStyle defaultStyle) {
         component = Component.empty().style(AdventureUtils.buildStyle(defaultStyle));
-        this.defaultStyle = defaultStyle;
+    }
+
+    public AdventureMessage(Component component) {
+        this.component = component;
     }
 
     public Message setDefaultStyle(MessageStyle defaultStyle) {
-        this.defaultStyle = defaultStyle;
         component = component.style(AdventureUtils.buildStyle(defaultStyle));
         return this;
     }
@@ -34,7 +34,7 @@ public class AdventureMessage implements Message {
 
     @Override
     public Message add(String message, MessageStyle style) {
-        component = component.append(Component.text(message).style(AdventureUtils.buildStyle(defaultStyle)));
+        component = component.append(Component.text(message).style(AdventureUtils.buildStyle(style)));
         return this;
     }
 
@@ -91,9 +91,8 @@ public class AdventureMessage implements Message {
         return component;
     }
 
-    public MessageStyle getDefaultStyle() {
-        return defaultStyle;
+    @Override
+    public boolean isEmpty() {
+        return component.equals(Component.empty());
     }
-
-
 }

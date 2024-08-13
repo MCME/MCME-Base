@@ -15,4 +15,5 @@ public interface Message {
     Message addHover(MessageHoverEvent messageHoverEvent);
     Message addClick(MessageClickEvent messageClickEvent);
 
+    boolean isEmpty();
 }

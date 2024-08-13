@@ -1,6 +1,7 @@
 package com.mcmiddleearth.base.core.server;
 
 import com.mcmiddleearth.base.core.command.McmeCommandSender;
+import com.mcmiddleearth.base.core.message.Message;
 import com.mcmiddleearth.base.core.player.McmeProxyPlayer;
 import net.kyori.adventure.text.Component;
 
@@ -13,9 +14,9 @@ public interface McmeProxy {
 
     Collection<McmeServerInfo> getAllServerInfo();
 
-    void stop(Component message);
+    void stop(Message message);
 
-    void broadcast(Component message);
+    void broadcast(Message message);
 
     boolean sendPluginMessage(McmeServerInfo server, String channel, byte[] data, boolean queue);
 

@@ -1,6 +1,8 @@
 package com.mcmiddleearth.base.velocity.server;
 
+import com.mcmiddleearth.base.adventure.AdventureMessage;
 import com.mcmiddleearth.base.core.command.McmeCommandSender;
+import com.mcmiddleearth.base.core.message.Message;
 import com.mcmiddleearth.base.core.player.McmeProxyPlayer;
 import com.mcmiddleearth.base.core.server.McmeProxy;
 import com.mcmiddleearth.base.core.server.McmeServerInfo;
@@ -33,13 +35,13 @@ public class VelocityMcmeProxy implements McmeProxy {
     }
 
     @Override
-    public void stop(Component message) {
-        proxyServer.shutdown(message);
+    public void stop(Message message) {
+        proxyServer.shutdown(((AdventureMessage)message).getComponent());
     }
 
     @Override
-    public void broadcast(Component message) {
-        proxyServer.sendMessage(message);
+    public void broadcast(Message message) {
+        proxyServer.sendMessage(((AdventureMessage)message).getComponent());
     }
 
     @Override
