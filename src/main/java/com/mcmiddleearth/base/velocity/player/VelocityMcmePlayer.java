@@ -1,11 +1,13 @@
 package com.mcmiddleearth.base.velocity.player;
 
 import com.mcmiddleearth.base.VelocityBasePlugin;
+import com.mcmiddleearth.base.adventure.AdventureMessage;
 import com.mcmiddleearth.base.core.message.Message;
 import com.mcmiddleearth.base.core.player.McmeProxyPlayer;
 import com.mcmiddleearth.base.core.server.McmeServerInfo;
 import com.mcmiddleearth.base.core.taskScheduling.Callback;
 import com.mcmiddleearth.base.velocity.command.VelocityMcmeCommandSender;
+import com.mcmiddleearth.base.velocity.server.VelocityMcmeServerInfo;
 import com.velocitypowered.api.proxy.Player;
 import com.velocitypowered.api.proxy.ProxyServer;
 import com.velocitypowered.api.proxy.ServerConnection;
@@ -43,11 +45,18 @@ public class VelocityMcmePlayer extends VelocityMcmeCommandSender implements Mcm
 
     @Override
     public McmeServerInfo getServerInfo() {
-        return null;
+        ServerConnection server = player.getCurrentServer().orElse(null);
+        if(server != null) {
+            return new VelocityMcmeServerInfo(VelocityBasePlugin.getInstance().getProxyServer(), server.getServerInfo());
+        } else {
+            return null;
+        }
+
     }
 
     @Override
     public void disconnect(Message message) {
+        player.disconnect(((AdventureMessage)message).getComponent());
     }
 
     @Override

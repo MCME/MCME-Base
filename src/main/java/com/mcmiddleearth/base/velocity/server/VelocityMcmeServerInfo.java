@@ -1,7 +1,6 @@
 package com.mcmiddleearth.base.velocity.server;
 
 import com.mcmiddleearth.base.VelocityBasePlugin;
-import com.mcmiddleearth.base.bungee.server.BungeeMcmeServerPing;
 import com.mcmiddleearth.base.core.server.McmeServerInfo;
 import com.mcmiddleearth.base.core.server.McmeServerPing;
 import com.mcmiddleearth.base.core.taskScheduling.Callback;

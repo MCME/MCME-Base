@@ -8,6 +8,7 @@ public class BungeeBasePlugin extends AbstractBungeePlugin {
     @Override
     public void onEnable() {
         super.onEnable();
+
         getMcmeProxy().getConsole().sendMessage(createInfoMessage().add("Enabled on Bungee proxy!"));
     }
 

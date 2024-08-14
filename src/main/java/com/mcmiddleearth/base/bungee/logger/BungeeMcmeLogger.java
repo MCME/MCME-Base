@@ -8,40 +8,38 @@ import java.util.logging.Logger;
 public class BungeeMcmeLogger implements McmeLogger {
 
     private final Logger logger;
-    private final String prefix;
 
-    public BungeeMcmeLogger(Logger logger, String prefix) {
+    public BungeeMcmeLogger(Logger logger) {
         this.logger = logger;
-        this.prefix = prefix;
     }
 
     @Override
     public void trace(String message) {
-        logger.finest(prefix+message);
+        logger.finest(message);
     }
 
     @Override
     public void debug(String message) {
-        logger.fine(prefix+message);
+        logger.fine(message);
     }
 
     @Override
     public void info(String message) {
-        logger.info(prefix+message);
+        logger.info(message);
     }
 
     @Override
     public void warn(String message) {
-        logger.warning(prefix+message);
+        logger.warning(message);
     }
 
     @Override
     public void error(String message) {
-        logger.severe(prefix+message);
+        logger.severe(message);
     }
 
     @Override
     public void error(String message, Throwable thrown) {
-        logger.log(Level.SEVERE,prefix+message,thrown);
+        logger.log(Level.SEVERE,message,thrown);
     }
 }

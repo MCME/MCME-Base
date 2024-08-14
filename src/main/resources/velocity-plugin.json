@@ -1,0 +1,9 @@
+{
+  "id":"mcme-base",
+  "name":"MCME-Base",
+  "version":"1.0-SNAPSHOT",
+  "description":"Base functionality for MCME plugins",
+  "authors":["Eriol_Eandur"],
+  "dependencies":[],
+  "main":"com.mcmiddleearth.base.VelocityBasePlugin"
+}

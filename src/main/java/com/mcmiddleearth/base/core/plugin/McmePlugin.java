@@ -53,7 +53,8 @@ public interface McmePlugin {
                 getMcmeLogger().error("Creation of plugin data folder failed!");
             }
         }
-        InputStream inputStream = this.getClass().getResourceAsStream(resource);
+        InputStream inputStream = this.getClass().getResourceAsStream("/"+resource);
+
         if(!file.exists()) {
             if(inputStream==null) {
                 getMcmeLogger().error("resource "+resource+" not found in plugin jar");

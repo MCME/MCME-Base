@@ -6,7 +6,7 @@ import java.util.logging.Logger;
 
 public class BukkitMcmeLogger extends BungeeMcmeLogger {
 
-    public BukkitMcmeLogger(Logger logger, String prefix) {
-        super(logger, prefix);
+    public BukkitMcmeLogger(Logger logger) {
+        super(logger);
     }
 }

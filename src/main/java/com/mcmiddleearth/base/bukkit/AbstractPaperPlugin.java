@@ -29,8 +29,8 @@ public abstract class AbstractPaperPlugin extends JavaPlugin implements McmeBack
     @Override
     public void onEnable() {
         // Plugin startup logic
-        this.mcmeLogger = new BukkitMcmeLogger(getLogger(), PlainTextComponentSerializer.plainText()
-                .serialize(((AdventureMessage)getMessagePrefix()).getComponent()));
+        this.mcmeLogger = new BukkitMcmeLogger(getLogger());//, PlainTextComponentSerializer.plainText()
+                //.serialize(((AdventureMessage)getMessagePrefix()).getComponent()));
     }
 
     @Override

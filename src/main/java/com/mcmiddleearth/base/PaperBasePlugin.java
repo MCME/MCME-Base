@@ -2,7 +2,6 @@ package com.mcmiddleearth.base;
 
 import com.mcmiddleearth.base.bukkit.AbstractPaperPlugin;
 import com.mcmiddleearth.base.core.message.Message;
-import net.kyori.adventure.text.Component;
 
 public class PaperBasePlugin extends AbstractPaperPlugin {
 

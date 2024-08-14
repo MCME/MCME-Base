@@ -79,7 +79,7 @@ public class BungeeMcmeProxy implements McmeProxy {
         return proxiedPlayer!=null ? new BungeeMcmePlayer(proxiedPlayer) : null;
     }
 
-    public McmeProxyPlayer getPlayer(ProxiedPlayer player) {
+    public BungeeMcmePlayer getPlayer(ProxiedPlayer player) {
         return new BungeeMcmePlayer(player);
     }
 

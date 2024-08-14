@@ -1,14 +1,10 @@
 package com.mcmiddleearth.base.velocity;
 
 import com.mcmiddleearth.base.adventure.AdventureMessage;
-import com.mcmiddleearth.base.core.command.McmeCommandSender;
 import com.mcmiddleearth.base.core.logger.McmeLogger;
-import com.mcmiddleearth.base.core.player.McmeProxyPlayer;
 import com.mcmiddleearth.base.core.plugin.McmeProxyPlugin;
 import com.mcmiddleearth.base.core.server.McmeProxy;
-import com.mcmiddleearth.base.core.server.McmeServerInfo;
 import com.mcmiddleearth.base.core.taskScheduling.Task;
-import com.mcmiddleearth.base.velocity.command.VelocityMcmeCommandSender;
 import com.mcmiddleearth.base.velocity.logger.VelocityMcmeLogger;
 import com.mcmiddleearth.base.velocity.server.VelocityMcmeProxy;
 import com.mcmiddleearth.base.velocity.taskScheduling.VelocityTask;
@@ -18,8 +14,6 @@ import org.slf4j.Logger;
 
 import java.io.File;
 import java.nio.file.Path;
-import java.util.Collection;
-import java.util.UUID;
 
 public abstract class AbstractVelocityPlugin implements McmeProxyPlugin {
 

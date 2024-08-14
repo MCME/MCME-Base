@@ -7,13 +7,16 @@ import com.mcmiddleearth.base.core.player.McmeProxyPlayer;
 import com.mcmiddleearth.base.core.server.McmeProxy;
 import com.mcmiddleearth.base.core.server.McmeServerInfo;
 import com.mcmiddleearth.base.velocity.command.VelocityMcmeCommandSender;
+import com.mcmiddleearth.base.velocity.player.VelocityMcmePlayer;
+import com.velocitypowered.api.proxy.Player;
 import com.velocitypowered.api.proxy.ProxyServer;
 import com.velocitypowered.api.proxy.messages.MinecraftChannelIdentifier;
 import com.velocitypowered.api.proxy.server.RegisteredServer;
-import net.kyori.adventure.text.Component;
 
 import java.util.Collection;
+import java.util.Collections;
 import java.util.UUID;
+import java.util.stream.Collectors;
 
 public class VelocityMcmeProxy implements McmeProxy {
 
@@ -31,7 +34,9 @@ public class VelocityMcmeProxy implements McmeProxy {
 
     @Override
     public Collection<McmeServerInfo> getAllServerInfo() {
-        return null;
+        return proxyServer.getAllServers().stream()
+                .map(server -> new VelocityMcmeServerInfo(proxyServer, server.getServerInfo()))
+                .collect(Collectors.toList());
     }
 
     @Override
@@ -52,25 +57,41 @@ public class VelocityMcmeProxy implements McmeProxy {
 
     @Override
     public Collection<McmeProxyPlayer> getPlayers() {
-        return null;
+        return proxyServer.getAllPlayers().stream().map(VelocityMcmePlayer::new).collect(Collectors.toList());
     }
 
     @Override
     public Collection<McmeProxyPlayer> getPlayers(McmeServerInfo serverInfo) {
-        return null;
+        RegisteredServer server =  proxyServer.getServer(serverInfo.getName()).orElse(null);
+        if(server!=null) {
+            return server.getPlayersConnected().stream().map(VelocityMcmePlayer::new).collect(Collectors.toList());
+        } else {
+            return Collections.emptyList();
+        }
+    }
+
+    public VelocityMcmePlayer getPlayer(Player player) {
+        return new VelocityMcmePlayer(player);
     }
 
     @Override
     public McmeProxyPlayer getPlayer(UUID uuid) {
-        //todo: return null if not exist
-        return null;
+        Player player = proxyServer.getPlayer(uuid).orElse(null);
+        if(player!=null) {
+            return new VelocityMcmePlayer(player);
+        } else {
+            return null;
+        }
     }
 
     @Override
     public McmeProxyPlayer getPlayer(String playerName) {
-
-        //todo: return null if not exist
-        return null;
+        Player player = proxyServer.getPlayer(playerName).orElse(null);
+        if(player!=null) {
+            return new VelocityMcmePlayer(player);
+        } else {
+            return null;
+        }
     }
 
     @Override

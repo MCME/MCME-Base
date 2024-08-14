@@ -49,20 +49,20 @@
                                     <include>net.kyori:adventure-platform-api</include>
                                     <include>net.kyori:adventure-platform-bungeecord</include>
                                     <include>net.kyori:adventure-text-serializer-bungeecord</include>
+                                    <include>net.kyori:adventure-text-serializer-plain</include>
                                     <include>net.kyori:adventure-text-serializer-gson</include>
                                     <include>net.kyori:adventure-text-serializer-json</include>
-                                    <include>net.kyori:adventure-text-serializer-plain</include>
                                     <include>net.kyori:adventure-text-serializer-legacy</include>
                                     <include>net.kyori:adventure-platform-facet</include>
                                     <include>net.kyori:examination-api</include>
                                 </includes>
                             </artifactSet>
-                            <relocations>
+                            <!--<relocations>
                                 <relocation>
                                     <pattern>net.kyori</pattern>
                                     <shadedPattern>com.mcmiddleearth.base.net.kyori</shadedPattern>
                                 </relocation>
-                            </relocations>
+                            </relocations>-->
                         </configuration>
                     </execution>
                 </executions>
