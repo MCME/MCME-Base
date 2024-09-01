@@ -61,16 +61,19 @@ public class VelocityMcmePlayer extends VelocityMcmeCommandSender implements Mcm
 
     @Override
     public void connect(McmeServerInfo target, Callback<Boolean> callback) {
+//VelocityBasePlugin.getInstance().getMcmeLogger().info("VelocityPlayer.connect");
         ProxyServer proxy = VelocityBasePlugin.getInstance().getProxyServer();
         proxy.getServer(target.getName()).ifPresent(server -> {
             CompletableFuture<Boolean> result = player.createConnectionRequest(server).connectWithIndication();
             proxy.getScheduler().buildTask(VelocityBasePlugin.getInstance(), () -> {
                 try {
-                    callback.done(result.get(), null);
+                    boolean connected = result.get();
+//VelocityBasePlugin.getInstance().getMcmeLogger().info("callback: "+connected);
+                    callback.done(connected, null);
                 } catch (InterruptedException | ExecutionException e) {
                     e.printStackTrace();
                 }
-            });
+            }).schedule();
         });
     }
 
