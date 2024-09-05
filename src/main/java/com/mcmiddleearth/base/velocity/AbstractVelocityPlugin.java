@@ -1,6 +1,5 @@
 package com.mcmiddleearth.base.velocity;
 
-import com.mcmiddleearth.base.adventure.AdventureMessage;
 import com.mcmiddleearth.base.core.logger.McmeLogger;
 import com.mcmiddleearth.base.core.plugin.McmeProxyPlugin;
 import com.mcmiddleearth.base.core.server.McmeProxy;
@@ -9,7 +8,6 @@ import com.mcmiddleearth.base.velocity.logger.VelocityMcmeLogger;
 import com.mcmiddleearth.base.velocity.server.VelocityMcmeProxy;
 import com.mcmiddleearth.base.velocity.taskScheduling.VelocityTask;
 import com.velocitypowered.api.proxy.ProxyServer;
-import net.kyori.adventure.text.serializer.plain.PlainTextComponentSerializer;
 import org.slf4j.Logger;
 
 import java.io.File;
@@ -25,8 +23,7 @@ public abstract class AbstractVelocityPlugin implements McmeProxyPlugin {
     public AbstractVelocityPlugin(Logger logger, ProxyServer proxyServer, Path dataDirectory) {
         this.proxyServer = proxyServer;
         mcmeProxy = new VelocityMcmeProxy(proxyServer);
-        mcmeLogger = new VelocityMcmeLogger(logger, PlainTextComponentSerializer.plainText()
-                .serialize(((AdventureMessage)getMessagePrefix()).getComponent()));
+        mcmeLogger = new VelocityMcmeLogger(logger);
         this.dataFolder = dataDirectory.toFile();
     }
 

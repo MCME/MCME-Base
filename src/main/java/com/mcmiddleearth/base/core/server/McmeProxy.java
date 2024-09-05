@@ -3,7 +3,6 @@ package com.mcmiddleearth.base.core.server;
 import com.mcmiddleearth.base.core.command.McmeCommandSender;
 import com.mcmiddleearth.base.core.message.Message;
 import com.mcmiddleearth.base.core.player.McmeProxyPlayer;
-import net.kyori.adventure.text.Component;
 
 import java.util.Collection;
 import java.util.UUID;

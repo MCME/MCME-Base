@@ -3,36 +3,36 @@ package com.mcmiddleearth.base.velocity.logger;
 import com.mcmiddleearth.base.core.logger.McmeLogger;
 import org.slf4j.Logger;
 
-public record VelocityMcmeLogger(Logger logger, String prefix) implements McmeLogger {
+public record VelocityMcmeLogger(Logger logger) implements McmeLogger {
 
     @Override
     public void trace(String message) {
-        logger.trace(prefix + message);
+        logger.trace(message);
     }
 
     @Override
     public void debug(String message) {
-        logger.debug(prefix + message);
+        logger.debug(message);
     }
 
     @Override
     public void info(String message) {
-        logger.info(prefix + message);
+        logger.info(message);
     }
 
     @Override
     public void warn(String message) {
-        logger.warn(prefix + message);
+        logger.warn(message);
     }
 
     @Override
     public void error(String message) {
-        logger.error(prefix + message);
+        logger.error(message);
     }
 
     @Override
     public void error(String message, Throwable thrown) {
-        logger.error(prefix + message, thrown);
+        logger.error(message, thrown);
     }
 
 }
