@@ -76,6 +76,7 @@ public class VelocityMcmeProxy implements McmeProxy {
 
     @Override
     public McmeProxyPlayer getPlayer(UUID uuid) {
+        if(uuid == null) return null;
         Player player = proxyServer.getPlayer(uuid).orElse(null);
         if(player!=null) {
             return new VelocityMcmePlayer(player);
