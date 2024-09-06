@@ -35,4 +35,11 @@ public class BungeeMcmeServerInfo implements McmeServerInfo {
             callback.done(new BungeeMcmeServerPing(pingResult), error);
         });
     }
+
+    @Override
+    public boolean sendPluginMessage(String channel, byte[] data, boolean queue) {
+        return serverInfo.sendData(channel, data, queue);
+    }
+
+
 }

@@ -5,6 +5,7 @@ import com.mcmiddleearth.base.core.server.McmeServerInfo;
 import com.mcmiddleearth.base.core.server.McmeServerPing;
 import com.mcmiddleearth.base.core.taskScheduling.Callback;
 import com.velocitypowered.api.proxy.ProxyServer;
+import com.velocitypowered.api.proxy.messages.MinecraftChannelIdentifier;
 import com.velocitypowered.api.proxy.server.PingOptions;
 import com.velocitypowered.api.proxy.server.RegisteredServer;
 import com.velocitypowered.api.proxy.server.ServerInfo;
@@ -55,4 +56,12 @@ public class VelocityMcmeServerInfo implements McmeServerInfo {
             callback.done(null, new Throwable("Unknown server!"));
         }
     }
+
+    @Override
+    public boolean sendPluginMessage(String channel, byte[] data, boolean queue) {
+        RegisteredServer registeredServer =  proxyServer.getServer(serverInfo.getName()).orElse(null);
+        return registeredServer!=null && registeredServer.sendPluginMessage(MinecraftChannelIdentifier.from(channel), data);
+    }
+
+
 }

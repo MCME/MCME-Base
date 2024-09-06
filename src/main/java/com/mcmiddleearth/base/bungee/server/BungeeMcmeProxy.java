@@ -51,11 +51,6 @@ public class BungeeMcmeProxy implements McmeProxy {
     }
 
     @Override
-    public boolean sendPluginMessage(McmeServerInfo server, String channel, byte[] data, boolean queue) {
-        return ((BungeeMcmeServerInfo)server).toBungeeServerInfo().sendData(channel, data, queue);
-    }
-
-    @Override
     public Collection<McmeProxyPlayer> getPlayers() {
         return ProxyServer.getInstance().getPlayers().stream()
                 .map(BungeeMcmePlayer::new).collect(Collectors.toList());

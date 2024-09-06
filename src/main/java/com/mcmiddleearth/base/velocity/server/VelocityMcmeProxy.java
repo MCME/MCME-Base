@@ -50,12 +50,6 @@ public class VelocityMcmeProxy implements McmeProxy {
     }
 
     @Override
-    public boolean sendPluginMessage(McmeServerInfo server, String channel, byte[] data, boolean queue) {
-        RegisteredServer registeredServer =  proxyServer.getServer(server.getName()).orElse(null);
-        return registeredServer!=null && registeredServer.sendPluginMessage(MinecraftChannelIdentifier.from(channel), data);
-    }
-
-    @Override
     public Collection<McmeProxyPlayer> getPlayers() {
         return proxyServer.getAllPlayers().stream().map(VelocityMcmePlayer::new).collect(Collectors.toList());
     }

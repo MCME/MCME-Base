@@ -11,4 +11,8 @@ public interface McmeServerInfo {
     String getName();
 
     void ping(Callback<McmeServerPing> callback);
+
+    boolean sendPluginMessage(String channel, byte[] data, boolean queue);
+
+
 }

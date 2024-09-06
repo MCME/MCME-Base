@@ -17,8 +17,6 @@ public interface McmeProxy {
 
     void broadcast(Message message);
 
-    boolean sendPluginMessage(McmeServerInfo server, String channel, byte[] data, boolean queue);
-
     Collection<McmeProxyPlayer> getPlayers();
 
     Collection<McmeProxyPlayer> getPlayers(McmeServerInfo serverInfo);
