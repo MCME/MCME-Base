@@ -2,18 +2,19 @@ package com.mcmiddleearth.base.core.command.builder;
 
 import com.mcmiddleearth.base.core.command.McmeCommandSender;
 import com.mcmiddleearth.base.core.command.node.HelpfulLiteralNode;
+import com.mcmiddleearth.base.core.message.Message;
 import com.mojang.brigadier.builder.LiteralArgumentBuilder;
 import com.mojang.brigadier.tree.CommandNode;
 
 public class HelpfulLiteralBuilder extends LiteralArgumentBuilder<McmeCommandSender> {
 
     private String helpText;
-    private String tooltip;
+    private Message tooltip;
 
     protected HelpfulLiteralBuilder(String literal) {
         super(literal);
         helpText = "";
-        tooltip = "";
+        tooltip = null;
     }
 
     /**
@@ -42,7 +43,7 @@ public class HelpfulLiteralBuilder extends LiteralArgumentBuilder<McmeCommandSen
      * @param tooltip tooltip to display
      * @return  this HelpfulLiteralBuilder
      */
-    public HelpfulLiteralBuilder withTooltip(String tooltip) {
+    public HelpfulLiteralBuilder withTooltip(Message tooltip) {
         this.tooltip = tooltip;
         return getThis();
     }

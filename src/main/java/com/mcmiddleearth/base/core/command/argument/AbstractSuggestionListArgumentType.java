@@ -1,5 +1,7 @@
 package com.mcmiddleearth.base.core.command.argument;
 
+import com.mcmiddleearth.base.adventure.AdventureMessage;
+import com.mcmiddleearth.base.core.message.Message;
 import com.mojang.brigadier.LiteralMessage;
 import com.mojang.brigadier.arguments.ArgumentType;
 import com.mojang.brigadier.context.CommandContext;
@@ -12,7 +14,7 @@ import java.util.concurrent.CompletableFuture;
 
 public abstract class AbstractSuggestionListArgumentType <T> implements ArgumentType<T>, HelpfulArgumentType {
 
-    private String tooltip = "Choose an item from list.";
+    private Message tooltip = new AdventureMessage().add("Choose an item from list.");
 
     @Override
     public Collection<String> getExamples() {
@@ -26,7 +28,7 @@ public abstract class AbstractSuggestionListArgumentType <T> implements Argument
                 if(tooltip == null) {
                     builder.suggest(option);
                 } else {
-                    builder.suggest(option, new LiteralMessage(tooltip));
+                    builder.suggest(option, new LiteralMessage(tooltip.toString()));
                 }
             }
         }
@@ -36,12 +38,12 @@ public abstract class AbstractSuggestionListArgumentType <T> implements Argument
     protected abstract Collection<String> getSuggestions();
 
     @Override
-    public void setTooltip(String tooltip) {
+    public void setTooltip(Message tooltip) {
         this.tooltip = tooltip;
     }
 
     @Override
-    public String getTooltip() {
+    public Message getTooltip() {
         return tooltip;
     }
 }

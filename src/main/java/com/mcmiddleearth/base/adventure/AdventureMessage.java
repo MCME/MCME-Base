@@ -4,6 +4,7 @@ import com.mcmiddleearth.base.core.message.*;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.event.ClickEvent;
 import net.kyori.adventure.text.event.HoverEvent;
+import net.kyori.adventure.text.serializer.plain.PlainTextComponentSerializer;
 
 public class AdventureMessage implements Message {
 
@@ -94,5 +95,10 @@ public class AdventureMessage implements Message {
     @Override
     public boolean isEmpty() {
         return component.equals(Component.empty());
+    }
+
+    @Override
+    public String toString() {
+        return PlainTextComponentSerializer.plainText().serialize(component);
     }
 }

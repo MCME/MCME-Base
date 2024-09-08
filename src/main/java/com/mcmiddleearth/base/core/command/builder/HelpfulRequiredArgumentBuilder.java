@@ -3,6 +3,7 @@ package com.mcmiddleearth.base.core.command.builder;
 import com.mcmiddleearth.base.core.command.McmeCommandSender;
 import com.mcmiddleearth.base.core.command.argument.HelpfulArgumentType;
 import com.mcmiddleearth.base.core.command.node.HelpfulArgumentNode;
+import com.mcmiddleearth.base.core.message.Message;
 import com.mojang.brigadier.arguments.ArgumentType;
 import com.mojang.brigadier.builder.ArgumentBuilder;
 import com.mojang.brigadier.suggestion.SuggestionProvider;
@@ -11,7 +12,7 @@ import com.mojang.brigadier.tree.CommandNode;
 
 public class HelpfulRequiredArgumentBuilder<T> extends ArgumentBuilder<McmeCommandSender, HelpfulRequiredArgumentBuilder<T>> {
     private String helpText;
-    private String tooltip;
+    private Message tooltip;
     private final String name;
     private final ArgumentType<T> type;
     private SuggestionProvider<McmeCommandSender> suggestionsProvider = null;
@@ -20,7 +21,7 @@ public class HelpfulRequiredArgumentBuilder<T> extends ArgumentBuilder<McmeComma
         this.name = name;
         this.type = type;
         this.helpText = "";
-        this.tooltip = "";
+        this.tooltip = null;
         if(type instanceof HelpfulArgumentType && ((HelpfulArgumentType)type).getTooltip()!=null) {
             tooltip = ((HelpfulArgumentType)type).getTooltip();
         }
@@ -57,7 +58,7 @@ public class HelpfulRequiredArgumentBuilder<T> extends ArgumentBuilder<McmeComma
      * @param tooltip tooltip to display
      * @return  this HelpfulRequiredArgumentBuilder
      */
-    public HelpfulRequiredArgumentBuilder<T> withTooltip(String tooltip) {
+    public HelpfulRequiredArgumentBuilder<T> withTooltip(Message tooltip) {
         this.tooltip = tooltip;
         if(type instanceof HelpfulArgumentType && ((HelpfulArgumentType)type).getTooltip() != null) {
             ((HelpfulArgumentType)type).setTooltip(tooltip);

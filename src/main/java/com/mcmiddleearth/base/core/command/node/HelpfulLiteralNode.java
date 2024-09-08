@@ -1,6 +1,7 @@
 package com.mcmiddleearth.base.core.command.node;
 
 import com.mcmiddleearth.base.core.command.McmeCommandSender;
+import com.mcmiddleearth.base.core.message.Message;
 import com.mojang.brigadier.Command;
 import com.mojang.brigadier.LiteralMessage;
 import com.mojang.brigadier.RedirectModifier;
@@ -16,18 +17,18 @@ import java.util.function.Predicate;
 public class HelpfulLiteralNode extends LiteralCommandNode<McmeCommandSender> implements HelpfulNode {
 
     private String helpText;
-    private final String tooltip;
+    private final Message tooltip;
 
     public HelpfulLiteralNode(String literal, Command<McmeCommandSender> command, Predicate<McmeCommandSender> requirement,
                               CommandNode<McmeCommandSender> redirect, RedirectModifier<McmeCommandSender> modifier,
-                              boolean forks, String helpText, String tooltip) {
+                              boolean forks, String helpText, Message tooltip) {
         super(literal, command, requirement, redirect, modifier, forks);
         this.helpText = helpText;
         this.tooltip = tooltip;
     }
 
     @Override
-    public String getTooltip() {
+    public Message getTooltip() {
         return tooltip;
     }
 

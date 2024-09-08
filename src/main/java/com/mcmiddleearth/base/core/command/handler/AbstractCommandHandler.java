@@ -6,6 +6,9 @@ import com.mcmiddleearth.base.core.command.TabCompleteRequest;
 import com.mcmiddleearth.base.core.command.builder.HelpfulLiteralBuilder;
 import com.mcmiddleearth.base.core.command.node.HelpfulNode;
 import com.mcmiddleearth.base.core.message.McmeColors;
+import com.mcmiddleearth.base.core.message.Message;
+import com.mcmiddleearth.base.core.message.MessageHoverEvent;
+import com.mcmiddleearth.base.core.message.MessageStyle;
 import com.mcmiddleearth.base.core.plugin.McmePlugin;
 import com.mojang.brigadier.CommandDispatcher;
 import com.mojang.brigadier.ParseResults;
@@ -14,10 +17,6 @@ import com.mojang.brigadier.exceptions.CommandSyntaxException;
 import com.mojang.brigadier.suggestion.Suggestion;
 import com.mojang.brigadier.tree.CommandNode;
 import com.mojang.brigadier.tree.LiteralCommandNode;
-import net.md_5.bungee.api.ChatColor;
-import net.md_5.bungee.api.chat.ComponentBuilder;
-import net.md_5.bungee.api.chat.HoverEvent;
-import net.md_5.bungee.api.chat.hover.content.Text;
 
 import java.util.*;
 import java.util.concurrent.ExecutionException;
@@ -61,22 +60,22 @@ public abstract class AbstractCommandHandler {
             String message = String.format("%s %s", command, Joiner.on(' ').join(args)).trim();
             ParseResults<McmeCommandSender> result = commandDispatcher.parse(message, sender);
             result.getExceptions().entrySet().stream()
-                    .findFirst().ifPresent(error -> sender.sendMessage(new ComponentBuilder(error.getValue().getMessage())
-                    .color(McmeColors.ERROR).create()));
+                    .findFirst().ifPresent(error -> sender.sendMessage(plugin.createErrorMessage()
+                                                          .add(error.getValue().getMessage())));
             if(result.getExceptions().isEmpty()) {
                 if(result.getContext().getNodes().size() > 0
                         && (result.getContext().getCommand()==null
                             || result.getContext().getRange().getEnd() < result.getReader().getString().length())) {
                     //check for possible child nodes to collect suggestions and bake better error message
-                    ComponentBuilder helpMessage;
+                    Message helpMessage;
                     boolean help = false;
                     String parsedCommand = "/" + result.getReader().getString()
                             .substring(0, result.getContext().getRange().getEnd());
                     if(result.getReader().getRemaining().trim().equals("help")){
-                        helpMessage = new ComponentBuilder("Help for command "+parsedCommand+":").color(McmeColors.INFO);
+                        helpMessage = plugin.createInfoMessage().add("Help for command "+parsedCommand+":");
                         help = true;
                     } else {
-                        helpMessage = new ComponentBuilder("Invalid command syntax.").color(McmeColors.ERROR);
+                        helpMessage = plugin.createInfoMessage().add("Invalid command syntax.",McmeColors.ERROR);
                     }
                     CommandNode<McmeCommandSender> parsedNode = result.getContext().getNodes().get(result.getContext().getNodes().size() - 1).getNode();
                     Collection<CommandNode<McmeCommandSender>> children = (result.getContext().getNodes().isEmpty()?new ArrayList<>(): parsedNode.getChildren()
@@ -84,39 +83,40 @@ public abstract class AbstractCommandHandler {
                     Map<CommandNode<McmeCommandSender>,String> use = commandDispatcher.getSmartUsage(parsedNode,result.getContext().getSource());
                     if (children.isEmpty()) {
                         if (result.getContext().getCommand() == null) {
-                            helpMessage.append(" Maybe you don't have permission.");
+                            helpMessage.add(" Maybe you don't have permission.");
                         } else if(!help) {
-                            helpMessage.append(" Maybe you want to do:\n").append(parsedCommand).color(McmeColors.INFO);
+                            helpMessage.add(" Maybe you want to do:\n").add(parsedCommand);
                         }
                     } else {
                         if(!help) {
-                            helpMessage.append(" Maybe you want to do:");
+                            helpMessage.add(" Maybe you want to do:");
                         }
                         for(Map.Entry<CommandNode<McmeCommandSender>,String> entry: use.entrySet()) {
                             String usageMessage = "";
-                            helpMessage.append("\n").color(McmeColors.INFO);
+                            helpMessage.add("\n");
                             String[] visitedNodes = parsedCommand.split(" ");
                             Iterator<ParsedCommandNode<McmeCommandSender>> iterator = result.getContext().getNodes().listIterator();
                             for (String visitedNode : visitedNodes) {
-                                helpMessage.append(" "+visitedNode);
                                 ParsedCommandNode<McmeCommandSender> node = iterator.next();
-                                helpMessage.color((node.getNode() instanceof LiteralCommandNode?McmeColors.LITERAL:McmeColors.ARGUMENT));
+                                Message nodeMessage = plugin.createMessage().add(" "+visitedNode,
+                                        (node.getNode() instanceof LiteralCommandNode?McmeColors.LITERAL:McmeColors.ARGUMENT));
                                 if ((node.getNode() instanceof HelpfulNode)) {
-                                    helpMessage.event(new HoverEvent(HoverEvent.Action.SHOW_TEXT,
-                                            new Text(new ComponentBuilder(((HelpfulNode) node.getNode()).getTooltip())
-                                                    .color(McmeColors.TOOLTIP).create())));
+                                    nodeMessage.addHover(new MessageHoverEvent(MessageHoverEvent.Action.TEXT,
+                                            plugin.createMessage()
+                                                  .add(((HelpfulNode) node.getNode()).getTooltip()
+                                                          .setDefaultStyle(new MessageStyle(McmeColors.TOOLTIP)))));
                                     if(!((HelpfulNode) node.getNode()).getHelpText().equals("")) {
                                         usageMessage = ((HelpfulNode) node.getNode()).getHelpText();
                                     }
-                                } else {
+                                }/* else {
                                     helpMessage.event((HoverEvent)null);
-                                }
+                                }*/
+                                helpMessage.add(nodeMessage);
                             }
                             String[] possibleNodes = entry.getValue().replace('|', ' ').split(" ");
                             CommandNode<McmeCommandSender> node = parsedNode;
                             CommandNode<McmeCommandSender> lastNode = parsedNode;
                             for(String possibleNode: possibleNodes) {
-                                helpMessage.append(" "+possibleNode);
                                 CommandNode<McmeCommandSender> temp = node;
                                 node = findDirectChild(node, possibleNode.replaceAll("[()\\[\\]<>]",""));
                                 if(node==null) {
@@ -124,35 +124,40 @@ public abstract class AbstractCommandHandler {
                                 } else {
                                     lastNode = temp;
                                 }
-                                helpMessage.color((node instanceof LiteralCommandNode?Style.LITERAL:Style.ARGUMENT));
+                                Message nodeMessage = plugin.createMessage().add(" "+possibleNode,
+                                        (node instanceof LiteralCommandNode?McmeColors.LITERAL:McmeColors.ARGUMENT));
                                 if ((node instanceof HelpfulNode)) {
-                                    helpMessage.event(new HoverEvent(HoverEvent.Action.SHOW_TEXT,
-                                            new Text(new ComponentBuilder(((HelpfulNode) node).getTooltip())
-                                                    .color(Style.TOOLTIP).create())));
+                                    nodeMessage.addHover(new MessageHoverEvent(MessageHoverEvent.Action.TEXT,
+                                            plugin.createMessage()
+                                                  .add(((HelpfulNode) node).getTooltip()
+                                                          .setDefaultStyle(new MessageStyle(McmeColors.TOOLTIP)))));
                                     if(!((HelpfulNode) node).getHelpText().equals("")) {
                                         usageMessage = ((HelpfulNode) node).getHelpText();
                                     }
-                                } else {
+                                } /* else {
                                     helpMessage.event((HoverEvent) null);
-                                }
+                                }*/
+                                helpMessage.add(nodeMessage);
                             }
                             if(!usageMessage.equals("")) {
-                                helpMessage.append(" : "+usageMessage).color(Style.HELP)
-                                           .event(new HoverEvent(HoverEvent.Action.SHOW_TEXT,new Text(new ComponentBuilder().create())));
+                                Message hoverMessage = plugin.createMessage()
+                                                             .add(" : "+usageMessage, McmeColors.HELP);
+                                         /*  .addHover(new MessageHoverEvent(MessageHoverEvent.Action.TEXT,
+                                        plugin.createMessage()..add(usageTooltip, McmeColors.TOOLTIP))*/
+                                helpMessage.add(hoverMessage);
                             }
                         }
                     }
-                    sender.sendMessage(helpMessage.create());
+                    sender.sendMessage(helpMessage);
                 } else if(result.getContext().getCommand() == null) {
-                    sender.sendMessage(new ComponentBuilder("Invalid command. Maybe you don't have permission.")
-                            .color(ChatColor.RED).create());
+                    sender.sendMessage(plugin.createErrorMessage()
+                          .add("Invalid command. Maybe you don't have permission."));
                 } else {
                     commandDispatcher.execute(result);
                 }
             }
         } catch (CommandSyntaxException e) {
-            sender.sendMessage(new ComponentBuilder("Internal command parser exception!")
-                    .color(ChatColor.RED).create());
+            sender.sendMessage(plugin.createMessage().add("Internal command parser exception!"));
         }
     }
 
@@ -166,7 +171,7 @@ public abstract class AbstractCommandHandler {
                     = commandDispatcher.getCompletionSuggestions(result).get().getList();
             request.getSuggestions().addAll(completionSuggestions.stream().map(Suggestion::getText).toList());
         } catch (InterruptedException | ExecutionException e) {
-            request.getSender().sendMessage(new ComponentBuilder("Command tab complete error."+e).color(McmeColors.ERROR).create());
+            request.getSender().sendMessage(plugin.createMessage().add("Command tab complete error."+e));
         }
     }
 
@@ -196,5 +201,9 @@ public abstract class AbstractCommandHandler {
             message = printNode(child,message+"\n",indentation+"    ");
         }
         return message;
+    }
+
+    public McmePlugin getPlugin() {
+        return plugin;
     }
 }

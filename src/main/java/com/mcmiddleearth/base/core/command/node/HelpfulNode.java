@@ -1,8 +1,10 @@
 package com.mcmiddleearth.base.core.command.node;
 
+import com.mcmiddleearth.base.core.message.Message;
+
 public interface HelpfulNode {
 
-    String getTooltip();
+    Message getTooltip();
 
     String getHelpText();
 

@@ -16,6 +16,8 @@
  */
 package com.mcmiddleearth.base.core.command.argument;
 
+import com.mcmiddleearth.base.adventure.AdventureMessage;
+
 import java.util.Collection;
 import java.util.Collections;
 
@@ -26,7 +28,7 @@ import java.util.Collections;
 public abstract class AbstractPlayerArgumentType extends AbstractStringSuggestionListArgumentType {
 
     public AbstractPlayerArgumentType() {
-        setTooltip("any player");
+        setTooltip(new AdventureMessage().add("any player"));
     }
 
     @Override

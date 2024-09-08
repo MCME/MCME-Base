@@ -16,6 +16,8 @@
  */
 package com.mcmiddleearth.base.core.command.argument;
 
+import com.mcmiddleearth.base.adventure.AdventureMessage;
+import com.mcmiddleearth.base.core.message.Message;
 import com.mojang.brigadier.LiteralMessage;
 import com.mojang.brigadier.StringReader;
 import com.mojang.brigadier.arguments.ArgumentType;
@@ -36,7 +38,7 @@ import java.util.function.Function;
 
 public class PageArgumentType implements ArgumentType<Integer>, HelpfulArgumentType {
 
-    private String tooltip = "Number of page you want to see.";
+    private Message tooltip = new AdventureMessage().add("Number of page you want to see.");
 
     private final Function<CommandContext, Collection<String>> listProvider;
     private final int pageSize;
@@ -72,7 +74,7 @@ public class PageArgumentType implements ArgumentType<Integer>, HelpfulArgumentT
                 if(tooltip == null) {
                     builder.suggest(""+i);
                 } else {
-                    builder.suggest(""+i, new LiteralMessage(tooltip));
+                    builder.suggest(""+i, new LiteralMessage(tooltip.toString()));
                 }
             }
         }
@@ -80,12 +82,12 @@ public class PageArgumentType implements ArgumentType<Integer>, HelpfulArgumentT
     }
 
     @Override
-    public void setTooltip(String tooltip) {
+    public void setTooltip(Message tooltip) {
         this.tooltip = tooltip;
     }
 
     @Override
-    public String getTooltip() {
+    public Message getTooltip() {
         return tooltip;
     }
 }
