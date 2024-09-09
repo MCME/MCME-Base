@@ -14,9 +14,9 @@ public abstract class Task {
         return runnable;
     }
 
-    public abstract void schedule(long delay, TimeUnit timeUnit);
+    public abstract Task schedule(long delay, TimeUnit timeUnit);
 
-    public abstract void scheduleRepeating(long delay, long period, TimeUnit timeUnit);
+    public abstract Task scheduleRepeating(long delay, long period, TimeUnit timeUnit);
 
-    public abstract void cancel();
+    public abstract Task cancel();
 }

@@ -1,6 +1,7 @@
 package com.mcmiddleearth.base.bukkit.taskScheduling;
 
 import com.mcmiddleearth.base.core.taskScheduling.BackendTask;
+import com.mcmiddleearth.base.core.taskScheduling.Task;
 import org.bukkit.Bukkit;
 import org.bukkit.plugin.Plugin;
 
@@ -16,33 +17,38 @@ public class BukkitTask extends BackendTask {
     }
 
     @Override
-    public void scheduleSync(long delayTicks) {
+    public Task scheduleSync(long delayTicks) {
         task = Bukkit.getScheduler().runTaskLater(plugin, getRunnable(), delayTicks);
+        return this;
     }
 
     @Override
-    public void scheduleAsync(long delayTicks) {
+    public Task scheduleAsync(long delayTicks) {
         task = Bukkit.getScheduler().runTaskLater(plugin, getRunnable(), delayTicks);
+        return this;
     }
 
     @Override
-    public void scheduleSyncRepeating(long delayTicks, long periodTicks) {
+    public Task scheduleSyncRepeating(long delayTicks, long periodTicks) {
         task = Bukkit.getScheduler().runTaskTimer(plugin, getRunnable(), delayTicks, periodTicks);
+        return this;
     }
 
     @Override
-    public void scheduleAsyncRepeating(long delayTicks, long periodTicks) {
+    public Task scheduleAsyncRepeating(long delayTicks, long periodTicks) {
         task = Bukkit.getScheduler().runTaskTimerAsynchronously(plugin, getRunnable(), delayTicks, periodTicks);
+        return this;
     }
 
     @Override
-    public void cancel() {
+    public Task cancel() {
         if(task!=null) {
             task.cancel();
         }
+        return this;
     }
 
-    public org.bukkit.scheduler.BukkitTask getTask() {
+    public org.bukkit.scheduler.BukkitTask getBukkitTask() {
         return task;
     }
 }

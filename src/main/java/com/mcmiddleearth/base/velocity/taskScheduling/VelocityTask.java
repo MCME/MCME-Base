@@ -18,19 +18,22 @@ public class VelocityTask extends Task {
     }
 
     @Override
-    public void schedule(long delay, TimeUnit timeUnit) {
+    public Task schedule(long delay, TimeUnit timeUnit) {
         task = plugin.getProxyServer().getScheduler().buildTask(plugin, getRunnable()).delay(delay, timeUnit).schedule();
+        return this;
     }
 
     @Override
-    public void scheduleRepeating(long delay, long period, TimeUnit timeUnit) {
+    public Task scheduleRepeating(long delay, long period, TimeUnit timeUnit) {
         task = plugin.getProxyServer().getScheduler().buildTask(plugin, getRunnable())
                 .delay(delay, timeUnit)
                 .repeat(period, timeUnit).schedule();
+        return this;
     }
 
     @Override
-    public void cancel() {
+    public Task cancel() {
         task.cancel();
+        return this;
     }
 }

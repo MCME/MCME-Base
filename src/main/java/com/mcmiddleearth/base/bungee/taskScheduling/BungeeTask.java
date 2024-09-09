@@ -19,23 +19,26 @@ public class BungeeTask extends Task {
     }
 
     @Override
-    public void schedule(long delay, TimeUnit timeUnit) {
+    public Task schedule(long delay, TimeUnit timeUnit) {
         task = ProxyServer.getInstance().getScheduler().schedule(plugin, getRunnable(), delay, timeUnit);
+        return this;
     }
 
     @Override
-    public void scheduleRepeating(long delay, long period, TimeUnit timeUnit) {
+    public Task scheduleRepeating(long delay, long period, TimeUnit timeUnit) {
         task = ProxyServer.getInstance().getScheduler().schedule(plugin, getRunnable(), delay, period, timeUnit);
+        return this;
     }
 
     @Override
-    public void cancel() {
+    public Task cancel() {
         if(task!=null) {
             task.cancel();
         }
+        return this;
     }
 
-    public ScheduledTask getTask() {
+    public ScheduledTask getBungeeTask() {
         return task;
     }
 }

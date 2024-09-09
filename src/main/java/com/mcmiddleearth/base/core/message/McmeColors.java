@@ -11,6 +11,8 @@ public class McmeColors {
     public static final MessageColor INFO_LIGHT = MessageColor.YELLOW;
     public static final MessageColor ERROR = MessageColor.RED;
     public static final MessageColor ERROR_STRESSED = MessageColor.DARK_RED;
+    public static final MessageColor HIGHLIGHT = MessageColor.GOLD;
+    public static final MessageColor HIGHLIGHT_STRESSED = MessageColor.YELLOW;
 
     //Command Help
     public static final MessageColor LITERAL = MessageColor.AQUA;
