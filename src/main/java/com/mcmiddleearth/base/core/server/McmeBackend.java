@@ -2,6 +2,7 @@ package com.mcmiddleearth.base.core.server;
 
 import com.mcmiddleearth.base.core.command.McmeCommandSender;
 import com.mcmiddleearth.base.core.player.McmeBackendPlayer;
+import com.mcmiddleearth.base.core.scoreboard.ScoreboardManager;
 import net.kyori.adventure.text.Component;
 
 import java.util.Collection;
@@ -20,5 +21,7 @@ public interface McmeBackend {
     McmeBackendPlayer getPlayer(String playerName);
 
     McmeCommandSender getConsole();
+
+    ScoreboardManager getScoreboardManager();
 
 }

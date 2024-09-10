@@ -4,10 +4,12 @@ import com.mcmiddleearth.base.adventure.AdventureMessage;
 import com.mcmiddleearth.base.core.command.McmeCommandSender;
 import com.mcmiddleearth.base.core.message.Message;
 import com.mcmiddleearth.base.core.player.McmeProxyPlayer;
+import com.mcmiddleearth.base.core.scoreboard.ScoreboardManager;
 import com.mcmiddleearth.base.core.server.McmeProxy;
 import com.mcmiddleearth.base.core.server.McmeServerInfo;
 import com.mcmiddleearth.base.velocity.command.VelocityMcmeCommandSender;
 import com.mcmiddleearth.base.velocity.player.VelocityMcmePlayer;
+import com.mcmiddleearth.base.velocity.scoreboard.VelocityScoreboardManager;
 import com.velocitypowered.api.proxy.Player;
 import com.velocitypowered.api.proxy.ProxyServer;
 import com.velocitypowered.api.proxy.messages.MinecraftChannelIdentifier;
@@ -21,9 +23,11 @@ import java.util.stream.Collectors;
 public class VelocityMcmeProxy implements McmeProxy {
 
     private final ProxyServer proxyServer;
+    private final VelocityScoreboardManager scoreboardManager;
 
     public VelocityMcmeProxy(ProxyServer proxyServer) {
         this.proxyServer = proxyServer;
+        this.scoreboardManager = new VelocityScoreboardManager();
     }
 
     @Override
@@ -92,6 +96,11 @@ public class VelocityMcmeProxy implements McmeProxy {
     @Override
     public McmeCommandSender getConsole() {
         return new VelocityMcmeCommandSender(proxyServer.getConsoleCommandSource());
+    }
+
+    @Override
+    public ScoreboardManager getScoreboardManager() {
+        return scoreboardManager;
     }
 
 

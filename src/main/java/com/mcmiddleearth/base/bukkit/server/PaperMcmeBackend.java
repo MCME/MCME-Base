@@ -1,9 +1,12 @@
 package com.mcmiddleearth.base.bukkit.server;
 
+import com.mcmiddleearth.base.bukkit.AbstractPaperPlugin;
 import com.mcmiddleearth.base.bukkit.command.BukkitMcmeCommandSender;
 import com.mcmiddleearth.base.bukkit.player.BukkitMcmePlayer;
+import com.mcmiddleearth.base.bukkit.scoreboard.BukkitScoreboardManager;
 import com.mcmiddleearth.base.core.command.McmeCommandSender;
 import com.mcmiddleearth.base.core.player.McmeBackendPlayer;
+import com.mcmiddleearth.base.core.scoreboard.ScoreboardManager;
 import com.mcmiddleearth.base.core.server.McmeBackend;
 import net.kyori.adventure.text.Component;
 import org.bukkit.Bukkit;
@@ -14,6 +17,12 @@ import java.util.UUID;
 import java.util.stream.Collectors;
 
 public class PaperMcmeBackend implements McmeBackend {
+
+    private final BukkitScoreboardManager scoreboardManager;
+
+    public PaperMcmeBackend(AbstractPaperPlugin plugin) {
+        scoreboardManager = new BukkitScoreboardManager();
+    }
 
     @Override
     public void stop(Component message) {
@@ -48,6 +57,11 @@ public class PaperMcmeBackend implements McmeBackend {
     @Override
     public McmeCommandSender getConsole() {
         return new BukkitMcmeCommandSender(Bukkit.getConsoleSender());
+    }
+
+    @Override
+    public ScoreboardManager getScoreboardManager() {
+        return scoreboardManager;
     }
 
 }

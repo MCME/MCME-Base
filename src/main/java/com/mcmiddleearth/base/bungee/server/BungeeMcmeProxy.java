@@ -4,9 +4,11 @@ import com.mcmiddleearth.base.adventure.AdventureMessage;
 import com.mcmiddleearth.base.bungee.AbstractBungeePlugin;
 import com.mcmiddleearth.base.bungee.command.BungeeMcmeCommandSender;
 import com.mcmiddleearth.base.bungee.player.BungeeMcmePlayer;
+import com.mcmiddleearth.base.bungee.scoreboard.BungeeScoreboardManager;
 import com.mcmiddleearth.base.core.command.McmeCommandSender;
 import com.mcmiddleearth.base.core.message.Message;
 import com.mcmiddleearth.base.core.player.McmeProxyPlayer;
+import com.mcmiddleearth.base.core.scoreboard.ScoreboardManager;
 import com.mcmiddleearth.base.core.server.McmeProxy;
 import com.mcmiddleearth.base.core.server.McmeServerInfo;
 import net.kyori.adventure.text.Component;
@@ -22,9 +24,11 @@ import java.util.stream.Collectors;
 public class BungeeMcmeProxy implements McmeProxy {
 
     AbstractBungeePlugin plugin;
+    BungeeScoreboardManager scoreboardManager;
 
     public BungeeMcmeProxy(AbstractBungeePlugin plugin) {
         this.plugin = plugin;
+        this.scoreboardManager = new BungeeScoreboardManager();
     }
 
     @Override
@@ -83,5 +87,9 @@ public class BungeeMcmeProxy implements McmeProxy {
         return new BungeeMcmeCommandSender(ProxyServer.getInstance().getConsole());
     }
 
+    @Override
+    public ScoreboardManager getScoreboardManager() {
+        return null;
+    }
 
 }

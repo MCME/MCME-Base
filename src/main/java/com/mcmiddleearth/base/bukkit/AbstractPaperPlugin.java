@@ -23,7 +23,7 @@ import java.util.stream.Collectors;
 
 public abstract class AbstractPaperPlugin extends JavaPlugin implements McmeBackendPlugin {
 
-    private final McmeBackend mcmeBackend = new PaperMcmeBackend();
+    private final McmeBackend mcmeBackend = new PaperMcmeBackend(this);
     private McmeLogger mcmeLogger;
 
     @Override
