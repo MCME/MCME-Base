@@ -6,21 +6,21 @@ import org.jetbrains.annotations.NotNull;
 
 public class NumberFormat{
 
-    static @NotNull NumberFormat blank() {
+    public static @NotNull NumberFormat blank() {
         return new NumberFormat();
     }
-    static @NotNull NumberFormat fixed(@NotNull Message component) {
+    public static @NotNull NumberFormat fixed(@NotNull Message component) {
         return new NumberFormat();
     }
-    static @NotNull NumberFormat noStyle() {
-        return new NumberFormat();
-    }
-
-    static @NotNull NumberFormat styled(@NotNull MessageStyle style) {
+    public static @NotNull NumberFormat noStyle() {
         return new NumberFormat();
     }
 
-    static @NotNull NumberFormat styled(@NotNull MessageStyle @NotNull ... styleBuilderApplicables) {
+    public static @NotNull NumberFormat styled(@NotNull MessageStyle style) {
+        return new NumberFormat();
+    }
+
+    public static @NotNull NumberFormat styled(@NotNull MessageStyle @NotNull ... styleBuilderApplicables) {
         return new NumberFormat();
     }
 

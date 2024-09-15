@@ -24,14 +24,14 @@ public interface Team {
     @NotNull Set<String> getEntries();
     @NotNull String getName();
     @NotNull Team.OptionStatus getOption(@NotNull Team.Option option);
-    @NotNull Set<McmePlayer> getPlayers();
+    @NotNull Set<? extends McmePlayer> getPlayers();
     @Nullable Scoreboard getScoreboard();
     int getSize();
     boolean hasColor();
     boolean hasPlayer(@NotNull McmePlayer player);
     @NotNull Message prefix();
     void prefix(@Nullable Message prefix);
-    boolean removePlayerss(Collection<McmePlayer> entities);
+    boolean removePlayers(Collection<McmePlayer> entities);
     boolean removeEntries(Collection<String> entries);
     boolean removeEntry(@NotNull String entry);
     boolean removePlayer(@NotNull McmePlayer player);

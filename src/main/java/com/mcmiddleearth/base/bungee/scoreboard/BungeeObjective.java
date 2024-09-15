@@ -7,6 +7,13 @@ import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 public class BungeeObjective implements Objective {
+
+    private final net.md_5.bungee.api.score.Objective bungeeObjective;
+
+    public BungeeObjective(net.md_5.bungee.api.score.Objective bungeeObjective) {
+        this.bungeeObjective = bungeeObjective;
+    }
+
     @Override
     public @NotNull Message displayName() {
         return null;
