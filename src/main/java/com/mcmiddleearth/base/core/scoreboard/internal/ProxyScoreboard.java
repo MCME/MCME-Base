@@ -7,29 +7,33 @@ import com.mcmiddleearth.base.core.scoreboard.*;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
-import java.util.Collections;
-import java.util.HashSet;
-import java.util.Set;
+import java.util.*;
 import java.util.stream.Collectors;
 
 public abstract class ProxyScoreboard implements Scoreboard {
 
-    Set<ProxyObjective> objectives;
-    Set<ProxyTeam> teams;
+    private Set<ProxyObjective> objectives;
+    private Set<ProxyTeam> teams;
 
-    protected abstract PlayerObjective createPlayerObjective(String name, String value, RenderType type);
-    protected abstract PlayerScore createPlayerScore(String itemName, String scoreName, int value);
-    protected abstract PlayerScoreboard createPlayerScoreboard(McmeProxyPlayer player);
+    protected PlayerScoreboardManager scoreboardManager;
 
+    protected abstract void removeInvalidPlayerScoreboards();
 
     protected abstract ProxyObjective createProxyObjective(String name, String value, String type);
     protected abstract ProxyTeam createProxyTeam(String name);
     protected abstract ProxyScore createProxyScore(String itemName, String name, int value);
 
+    protected abstract PlayerObjective createPlayerObjective(String name, String value, RenderType type);
+    protected abstract PlayerScore createPlayerScore(String itemName, String scoreName, int value);
+    protected abstract PlayerScoreboard createPlayerScoreboard(McmeProxyPlayer player);
+
+    public ProxyScoreboard() {
+        this.scoreboardManager = new PlayerScoreboardManager(this);
+    }
 
     @Override
     public void clearSlot(@NotNull DisplaySlot slot) {
-
+        //???
     }
 
     @Override
@@ -59,15 +63,14 @@ public abstract class ProxyScoreboard implements Scoreboard {
 
     @Override
     public @NotNull Set<? extends McmePlayer> getPlayers() {
-        Set<McmePlayer> players = new HashSet<>();
-        teams.forEach(team -> players.addAll(team.getPlayers()));
-        return players;
+        return scoreboardManager.getPlayerScoreboards().keySet();
     }
 
     @Override
     public @NotNull Set<? extends Score> getScores(@NotNull String entry) {
         Set<Score> scores = new HashSet<>();
         objectives.forEach(objective -> scores.add(objective.getScore(entry)));
+        scores.forEach(score->scoreboardManager.updateValue((ProxyScore) score));
         return scores;
     }
 
@@ -75,7 +78,9 @@ public abstract class ProxyScoreboard implements Scoreboard {
     public @NotNull Set<? extends Score> getScores(@NotNull McmePlayer player) {
         Team team = getPlayerTeam(player);
         if(team!=null) {
-            return getScores(team.getName());
+            Set<? extends Score> scores = getScores(team.getName());
+            scores.forEach(score->scoreboardManager.updateValue((ProxyScore) score));
+            return scores;
         }
         return Collections.emptySet();
     }
@@ -121,12 +126,15 @@ public abstract class ProxyScoreboard implements Scoreboard {
             objective = createProxyObjective(name, criteria, "interger");
         }
         objectives.add(objective);
+        scoreboardManager.addObjective(objective);
         return objective;
     }
 
     @Override
     public void resetScores(@NotNull String entry) {
         objectives.forEach(objective -> objective.getScore(entry).resetScore());
+        scoreboardManager.resetScores(this, entry);
+
     }
 
     @Override
@@ -139,9 +147,14 @@ public abstract class ProxyScoreboard implements Scoreboard {
 
     void unregisterObjective(ProxyObjective objective){
         objectives.remove(objective);
+        scoreboardManager.removeObjective(objective);
     }
 
-    public void unregisterTeam(ProxyTeam team) {
+    void unregisterTeam(ProxyTeam team) {
         teams.remove(team);
+    }
+
+    @NotNull PlayerScoreboardManager getScoreboardManager() {
+        return scoreboardManager;
     }
 }

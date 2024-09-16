@@ -10,7 +10,8 @@ import java.util.Set;
 
 public class ProxyObjective implements Objective {
 
-    private ProxyScoreboard scoreboard;
+    private final ProxyScoreboard scoreboard;
+    private final PlayerScoreboardManager scoreboardManager;
 
     private Message displayName;
     private final String name;
@@ -24,6 +25,7 @@ public class ProxyObjective implements Objective {
 
     public ProxyObjective(ProxyScoreboard scoreboard, Message displayName, String name, String criteria) {
         this.scoreboard = scoreboard;
+        scoreboardManager = scoreboard.getScoreboardManager();
         this.displayName = displayName;
         this.name = name;
         this.criteria = criteria;
@@ -41,6 +43,7 @@ public class ProxyObjective implements Objective {
     @Override
     public void displayName(@Nullable Message displayName) {
         this.displayName = displayName;
+        scoreboardManager.updateCustomName(this);
     }
 
     @Override
@@ -69,6 +72,7 @@ public class ProxyObjective implements Objective {
         if(score == null) {
             score = scoreboard.createProxyScore(entry, entry, 0);
             scores.add(score);
+            scoreboardManager.updateValue(score);
         }
         return score;
     }
@@ -101,6 +105,7 @@ public class ProxyObjective implements Objective {
     @Override
     public void numberFormat(NumberFormat format) {
         this.numberFormat = format;
+        scoreboardManager.updateNumberFormat(this);
     }
 
     @Override
@@ -111,11 +116,13 @@ public class ProxyObjective implements Objective {
     @Override
     public void setDisplaySlot(@Nullable DisplaySlot slot) {
         this.displaySlot = slot;
+        scoreboardManager.updateDisplayName(this);
     }
 
     @Override
     public void setRenderType(@NotNull RenderType renderType) {
         this.renderType = renderType;
+        scoreboardManager.updateRenderType(this);
     }
 
     @Override

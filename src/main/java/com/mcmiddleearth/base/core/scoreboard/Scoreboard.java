@@ -2,6 +2,7 @@ package com.mcmiddleearth.base.core.scoreboard;
 
 import com.mcmiddleearth.base.core.message.Message;
 import com.mcmiddleearth.base.core.player.McmePlayer;
+import com.mcmiddleearth.base.core.scoreboard.internal.ProxyScore;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 

@@ -6,9 +6,12 @@ import com.mcmiddleearth.base.core.scoreboard.*;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
+import java.util.Objects;
+
 public class ProxyScore implements Score {
 
-    private ProxyObjective objective;
+    private final ProxyObjective objective;
+    private final PlayerScoreboardManager scoreboardManager;
 
     private Message customName;
     private final String entry;
@@ -17,7 +20,9 @@ public class ProxyScore implements Score {
     private NumberFormat numberFormat;
     private int score;
 
-    public ProxyScore(String entry) {
+    public ProxyScore(ProxyObjective objective, String entry) {
+        this.objective = objective;
+        scoreboardManager = ((ProxyScoreboard) Objects.requireNonNull(objective.getScoreboard())).getScoreboardManager();
         this.entry = entry;
         isSet = false;
         triggerable = true;
@@ -33,6 +38,7 @@ public class ProxyScore implements Score {
     @Override
     public void customName(@Nullable Message customName) {
         this.customName = customName;
+        scoreboardManager.updateCustomName(this);
     }
 
     @Override
@@ -85,18 +91,21 @@ public class ProxyScore implements Score {
     @Override
     public void numberFormat(NumberFormat format) {
         this.numberFormat = format;
+        scoreboardManager.updateNumberFormat(this);
     }
 
     @Override
     public void resetScore() {
         isSet = false;
         score = 0;
+        scoreboardManager.updateValue(this);
     }
 
     @Override
     public void setScore(int score) {
         this.score = score;
         isSet = true;
+        scoreboardManager.updateValue(this);
     }
 
     @Override

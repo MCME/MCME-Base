@@ -3,22 +3,20 @@ package com.mcmiddleearth.base.core.scoreboard.internal;
 import com.mcmiddleearth.base.core.message.Message;
 import com.mcmiddleearth.base.core.message.MessageColor;
 import com.mcmiddleearth.base.core.player.McmePlayer;
-import com.mcmiddleearth.base.core.player.McmeProxyPlayer;
 import com.mcmiddleearth.base.core.scoreboard.Scoreboard;
 import com.mcmiddleearth.base.core.scoreboard.Team;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
-import java.util.Collection;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
+import java.util.stream.Collectors;
 
 public abstract class ProxyTeam implements Team {
 
     private final ProxyScoreboard scoreboard;
+    private final PlayerScoreboardManager scoreboardManager;
 
-    private final Map<McmeProxyPlayer, PlayerScoreboard> playerScoreboards = new HashMap<>();
+    private final Set<String> entries = new HashSet<>();
 
     private final String name;
     private boolean allowFriendlyFire;
@@ -32,6 +30,7 @@ public abstract class ProxyTeam implements Team {
 
     public ProxyTeam(ProxyScoreboard scoreboard, String name) {
         this.scoreboard = scoreboard;
+        scoreboardManager = scoreboard.getScoreboardManager();
         this.name = name;
         options.put(Option.COLLISION_RULE, OptionStatus.NEVER);
         options.put(Option.DEATH_MESSAGE_VISIBILITY, OptionStatus.NEVER);
@@ -39,23 +38,24 @@ public abstract class ProxyTeam implements Team {
     }
 
     @Override
-    public void addPlayers(Collection<McmePlayer> entities) {
-
+    public void addPlayers(Collection<McmePlayer> players) {
+        players.forEach(this::addPlayer);
     }
 
     @Override
     public void addEntries(Collection<String> entries) {
-        throw new UnsupportedOperationException("Only players are supported in ProxyTeams!");
+        this.entries.addAll(entries);
     }
 
     @Override
     public void addEntry(@NotNull String entry) {
-        throw new UnsupportedOperationException("Only players are supported in ProxyTeams!");
+        entries.add(entry);
     }
 
     @Override
     public void addPlayer(@NotNull McmePlayer player) {
-
+        scoreboardManager.addPlayerScoreboard(player);
+        addEntry(player.getName());
     }
 
     @Override
@@ -86,11 +86,12 @@ public abstract class ProxyTeam implements Team {
     @Override
     public void displayName(@Nullable Message displayName) {
         this.displayName = displayName;
+        scoreboardManager.updateDisplayName(this);
     }
 
     @Override
     public @NotNull Set<String> getEntries() {
-        return null;
+        return entries;
     }
 
     @Override
@@ -105,7 +106,7 @@ public abstract class ProxyTeam implements Team {
 
     @Override
     public @NotNull Set<? extends McmePlayer> getPlayers() {
-        return playerScoreboards.keySet();
+        return scoreboard.getPlayers().stream().filter(player ->  entries.contains(player.getName())).collect(Collectors.toSet());
     }
 
     @Override
@@ -115,7 +116,7 @@ public abstract class ProxyTeam implements Team {
 
     @Override
     public int getSize() {
-        return playerScoreboards.size();
+        return entries.size();
     }
 
     @Override
@@ -125,7 +126,7 @@ public abstract class ProxyTeam implements Team {
 
     @Override
     public boolean hasPlayer(@NotNull McmePlayer player) {
-        return false;
+        return entries.stream().anyMatch(entry -> player.getName().equals(entry));
     }
 
     @Override

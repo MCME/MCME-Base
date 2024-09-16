@@ -11,7 +11,7 @@ import java.util.Set;
 
 public interface Team {
 
-    void addPlayers(Collection<McmePlayer> entities);
+    void addPlayers(Collection<McmePlayer> players);
     void addEntries(Collection<String> entries);
     void addEntry(@NotNull String entry);
     void addPlayer(@NotNull McmePlayer player);
