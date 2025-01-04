@@ -28,7 +28,7 @@ public abstract class ProxyScoreboard implements Scoreboard {
     protected abstract PlayerScoreboard createPlayerScoreboard(McmeProxyPlayer player);
 
     public ProxyScoreboard() {
-        this.scoreboardManager = new PlayerScoreboardManager(this);
+        //todo this.scoreboardManager = new PlayerScoreboardManager(this);
     }
 
     @Override
@@ -63,14 +63,15 @@ public abstract class ProxyScoreboard implements Scoreboard {
 
     @Override
     public @NotNull Set<? extends McmePlayer> getPlayers() {
-        return scoreboardManager.getPlayerScoreboards().keySet();
+        return Collections.emptySet(); //todo
+        //todo return scoreboardManager.getPlayerScoreboards().keySet();
     }
 
     @Override
     public @NotNull Set<? extends Score> getScores(@NotNull String entry) {
         Set<Score> scores = new HashSet<>();
         objectives.forEach(objective -> scores.add(objective.getScore(entry)));
-        scores.forEach(score->scoreboardManager.updateValue((ProxyScore) score));
+        //todo scores.forEach(score->scoreboardManager.updateValue((ProxyScore) score));
         return scores;
     }
 
@@ -79,7 +80,7 @@ public abstract class ProxyScoreboard implements Scoreboard {
         Team team = getPlayerTeam(player);
         if(team!=null) {
             Set<? extends Score> scores = getScores(team.getName());
-            scores.forEach(score->scoreboardManager.updateValue((ProxyScore) score));
+            //todo scores.forEach(score->scoreboardManager.updateValue((ProxyScore) score));
             return scores;
         }
         return Collections.emptySet();
@@ -126,14 +127,14 @@ public abstract class ProxyScoreboard implements Scoreboard {
             objective = createProxyObjective(name, criteria, "interger");
         }
         objectives.add(objective);
-        scoreboardManager.addObjective(objective);
+        //todo scoreboardManager.addObjective(objective);
         return objective;
     }
 
     @Override
     public void resetScores(@NotNull String entry) {
         objectives.forEach(objective -> objective.getScore(entry).resetScore());
-        scoreboardManager.resetScores(this, entry);
+        //todo scoreboardManager.resetScores(this, entry);
 
     }
 
@@ -147,7 +148,7 @@ public abstract class ProxyScoreboard implements Scoreboard {
 
     void unregisterObjective(ProxyObjective objective){
         objectives.remove(objective);
-        scoreboardManager.removeObjective(objective);
+        //todo scoreboardManager.removeObjective(objective);
     }
 
     void unregisterTeam(ProxyTeam team) {

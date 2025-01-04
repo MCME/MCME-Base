@@ -8,7 +8,7 @@ import java.util.Map;
 
 public interface PlayerScoreboardManager {
 
-    private final ProxyScoreboard scoreboard;
+    /*private final ProxyScoreboard scoreboard;
 
     private final Map<McmeProxyPlayer, PlayerScoreboard> playerScoreboards = new HashMap<>();
 
@@ -53,5 +53,5 @@ public interface PlayerScoreboardManager {
 
     public abstract void removeObjective(ProxyObjective objective);
 
-    public abstract void addObjective(ProxyObjective objective);
+    public abstract void addObjective(ProxyObjective objective);*/
 }

@@ -63,7 +63,7 @@ public abstract class AbstractCommandHandler {
                     .findFirst().ifPresent(error -> sender.sendMessage(plugin.createErrorMessage()
                                                           .add(error.getValue().getMessage())));
             if(result.getExceptions().isEmpty()) {
-                if(result.getContext().getNodes().size() > 0
+                if(!result.getContext().getNodes().isEmpty()
                         && (result.getContext().getCommand()==null
                             || result.getContext().getRange().getEnd() < result.getReader().getString().length())) {
                     //check for possible child nodes to collect suggestions and bake better error message
@@ -100,12 +100,14 @@ public abstract class AbstractCommandHandler {
                                 ParsedCommandNode<McmeCommandSender> node = iterator.next();
                                 Message nodeMessage = plugin.createMessage().add(" "+visitedNode,
                                         (node.getNode() instanceof LiteralCommandNode?McmeColors.LITERAL:McmeColors.ARGUMENT));
-                                if ((node.getNode() instanceof HelpfulNode)) {
-                                    nodeMessage.addHover(new MessageHoverEvent(MessageHoverEvent.Action.TEXT,
-                                            plugin.createMessage()
-                                                  .add(((HelpfulNode) node.getNode()).getTooltip()
-                                                          .setDefaultStyle(new MessageStyle(McmeColors.TOOLTIP)))));
-                                    if(!((HelpfulNode) node.getNode()).getHelpText().equals("")) {
+                                if ((node.getNode() instanceof HelpfulNode helpfulNode)) {
+                                    if(helpfulNode.getTooltip() != null) {
+                                        nodeMessage.addHover(new MessageHoverEvent(MessageHoverEvent.Action.TEXT,
+                                                plugin.createMessage()
+                                                      .add(((HelpfulNode) node.getNode()).getTooltip()
+                                                              .setDefaultStyle(new MessageStyle(McmeColors.TOOLTIP)))));
+                                        }
+                                    if(!helpfulNode.getHelpText().isEmpty()) {
                                         usageMessage = ((HelpfulNode) node.getNode()).getHelpText();
                                     }
                                 }/* else {
@@ -118,28 +120,32 @@ public abstract class AbstractCommandHandler {
                             CommandNode<McmeCommandSender> lastNode = parsedNode;
                             for(String possibleNode: possibleNodes) {
                                 CommandNode<McmeCommandSender> temp = node;
-                                node = findDirectChild(node, possibleNode.replaceAll("[()\\[\\]<>]",""));
-                                if(node==null) {
-                                    node = findDirectChild(lastNode, possibleNode.replaceAll("[()\\[\\]<>]",""));
-                                } else {
-                                    lastNode = temp;
-                                }
-                                Message nodeMessage = plugin.createMessage().add(" "+possibleNode,
-                                        (node instanceof LiteralCommandNode?McmeColors.LITERAL:McmeColors.ARGUMENT));
-                                if ((node instanceof HelpfulNode)) {
-                                    nodeMessage.addHover(new MessageHoverEvent(MessageHoverEvent.Action.TEXT,
-                                            plugin.createMessage()
-                                                  .add(((HelpfulNode) node).getTooltip()
-                                                          .setDefaultStyle(new MessageStyle(McmeColors.TOOLTIP)))));
-                                    if(!((HelpfulNode) node).getHelpText().equals("")) {
-                                        usageMessage = ((HelpfulNode) node).getHelpText();
+                                if(node != null) {
+                                    node = findDirectChild(node, possibleNode.replaceAll("[()\\[\\]<>]", ""));
+                                    if (node == null) {
+                                        node = findDirectChild(lastNode, possibleNode.replaceAll("[()\\[\\]<>]", ""));
+                                    } else {
+                                        lastNode = temp;
                                     }
-                                } /* else {
-                                    helpMessage.event((HoverEvent) null);
-                                }*/
-                                helpMessage.add(nodeMessage);
+                                    Message nodeMessage = plugin.createMessage().add(" " + possibleNode,
+                                            (node instanceof LiteralCommandNode ? McmeColors.LITERAL : McmeColors.ARGUMENT));
+                                    if (node instanceof HelpfulNode helpfulNode) {
+                                        if (helpfulNode.getTooltip() != null) {
+                                            nodeMessage.addHover(new MessageHoverEvent(MessageHoverEvent.Action.TEXT,
+                                                    plugin.createMessage()
+                                                            .add(((HelpfulNode) node).getTooltip()
+                                                                    .setDefaultStyle(new MessageStyle(McmeColors.TOOLTIP)))));
+                                        }
+                                        if (!helpfulNode.getHelpText().isEmpty()) {
+                                            usageMessage = ((HelpfulNode) node).getHelpText();
+                                        }
+                                    } /* else {
+                                        helpMessage.event((HoverEvent) null);
+                                    }*/
+                                    helpMessage.add(nodeMessage);
+                                }
                             }
-                            if(!usageMessage.equals("")) {
+                            if(!usageMessage.isEmpty()) {
                                 Message hoverMessage = plugin.createMessage()
                                                              .add(" : "+usageMessage, McmeColors.HELP);
                                          /*  .addHover(new MessageHoverEvent(MessageHoverEvent.Action.TEXT,

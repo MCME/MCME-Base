@@ -54,7 +54,7 @@ public abstract class ProxyTeam implements Team {
 
     @Override
     public void addPlayer(@NotNull McmePlayer player) {
-        scoreboardManager.addPlayerScoreboard(player);
+        //todo scoreboardManager.addPlayerScoreboard(player);
         addEntry(player.getName());
     }
 
@@ -86,7 +86,7 @@ public abstract class ProxyTeam implements Team {
     @Override
     public void displayName(@Nullable Message displayName) {
         this.displayName = displayName;
-        scoreboardManager.updateDisplayName(this);
+        //todo scoreboardManager.updateDisplayName(this);
     }
 
     @Override

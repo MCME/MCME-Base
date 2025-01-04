@@ -8,8 +8,12 @@ import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.NamedTextColor;
 import net.kyori.adventure.text.format.TextColor;
 import net.kyori.adventure.text.serializer.bungeecord.BungeeComponentSerializer;
+import net.kyori.adventure.text.serializer.json.JSONComponentSerializer;
 import net.md_5.bungee.api.CommandSender;
 import net.md_5.bungee.api.chat.BaseComponent;
+
+import java.util.Arrays;
+import java.util.logging.Logger;
 
 public class BungeeMcmeCommandSender implements McmeCommandSender {
 
@@ -35,8 +39,12 @@ public class BungeeMcmeCommandSender implements McmeCommandSender {
         TextColor baseColor = component.color() != null ? component.color() : NamedTextColor.WHITE;
         BaseComponent[] baseComponents = BungeeComponentSerializer.get()
                 .serialize(AdventureUtils.addBaseColor(baseColor, component));
-        //Logger.getGlobal().info("Sender: "+commandSender.toString());
-        //Arrays.stream(baseComponents).forEach(component -> Logger.getGlobal().info(component.toLegacyText()));
-        commandSender.sendMessage(baseComponents);
+        JSONComponentSerializer.json().serialize(AdventureUtils.addBaseColor(baseColor, component));
+        //commandSender.
+//Logger.getGlobal().info("Sender: "+commandSender.toString());
+//Arrays.stream(baseComponents).forEach(comp -> Logger.getGlobal().info(comp.toString()));
+//Arrays.stream(baseComponents).forEach(comp -> Logger.getGlobal().info(comp.toLegacyText()));
+        Arrays.stream(baseComponents).forEach(comp -> commandSender.sendMessage(comp.toLegacyText()));
+        //commandSender.sendMessage(baseComponents);
     }
 }

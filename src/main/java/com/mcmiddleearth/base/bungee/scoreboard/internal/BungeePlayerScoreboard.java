@@ -21,7 +21,7 @@ public class BungeePlayerScoreboard implements PlayerScoreboard {
 
     @Override
     public void addObjective(Objective objective) {
-        player.getScoreboard().addObjective(((BungeeObjective)objective).getObjective;
+        //todo player.getScoreboard().addObjective(((BungeeObjective)objective).getObjective());
     }
 
     @Override
