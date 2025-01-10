@@ -40,7 +40,7 @@ public abstract class BukkitCommandHandler extends AbstractCommandHandler implem
         } else {
             return false;
         }
-        execute(wrappedSender, args);
+        handle(wrappedSender, args);
         return true;
     }
 

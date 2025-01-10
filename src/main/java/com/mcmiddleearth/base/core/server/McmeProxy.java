@@ -30,4 +30,6 @@ public interface McmeProxy {
 
     ScoreboardManager getScoreboardManager();
 
+    McmeServerInfo getAnyConnectedServerInfo();
+
 }

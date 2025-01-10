@@ -51,11 +51,11 @@ public abstract class AbstractCommandHandler {
         return command;
     }
 
-    public void execute(McmeCommandSender sender, String[] args) {
-        execute(sender, command, args);
+    public void handle(McmeCommandSender sender, String[] args) {
+        handle(sender, command, args);
     }
 
-    public void execute(McmeCommandSender sender, String command, String[] args) {
+    public void handle(McmeCommandSender sender, String command, String[] args) {
         try {
             String message = String.format("%s %s", command, Joiner.on(' ').join(args)).trim();
             ParseResults<McmeCommandSender> result = commandDispatcher.parse(message, sender);

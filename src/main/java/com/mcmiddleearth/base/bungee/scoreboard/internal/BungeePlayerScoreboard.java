@@ -16,7 +16,7 @@ public class BungeePlayerScoreboard implements PlayerScoreboard {
     ProxiedPlayer player;
 
     public BungeePlayerScoreboard(BungeeMcmePlayer player) {
-        this.player = player.getProxiedPlayer();
+        this.player = player.getBungeePlayer();
     }
 
     @Override

@@ -3,16 +3,19 @@ package com.mcmiddleearth.base.bungee.server;
 import com.mcmiddleearth.base.adventure.AdventureMessage;
 import com.mcmiddleearth.base.bungee.AbstractBungeePlugin;
 import com.mcmiddleearth.base.bungee.command.BungeeMcmeCommandSender;
+import com.mcmiddleearth.base.bungee.command.BungeeMcmeConsole;
 import com.mcmiddleearth.base.bungee.player.BungeeMcmePlayer;
 import com.mcmiddleearth.base.bungee.scoreboard.BungeeScoreboardManager;
 import com.mcmiddleearth.base.core.command.McmeCommandSender;
 import com.mcmiddleearth.base.core.message.Message;
+import com.mcmiddleearth.base.core.player.McmePlayer;
 import com.mcmiddleearth.base.core.player.McmeProxyPlayer;
 import com.mcmiddleearth.base.core.scoreboard.ScoreboardManager;
 import com.mcmiddleearth.base.core.server.McmeProxy;
 import com.mcmiddleearth.base.core.server.McmeServerInfo;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.serializer.plain.PlainTextComponentSerializer;
+import net.md_5.bungee.api.CommandSender;
 import net.md_5.bungee.api.ProxyServer;
 import net.md_5.bungee.api.config.ServerInfo;
 import net.md_5.bungee.api.connection.ProxiedPlayer;
@@ -51,7 +54,8 @@ public class BungeeMcmeProxy implements McmeProxy {
 
     @Override
     public void broadcast(Message message) {
-        plugin.getAdventure().players().sendMessage(((AdventureMessage)message).getComponent());
+        //plugin.getAdventure().players().sendMessage(((AdventureMessage)message).getComponent());
+        getPlayers().forEach(player -> player.sendMessage(message));
     }
 
     @Override
@@ -68,8 +72,9 @@ public class BungeeMcmeProxy implements McmeProxy {
 
     @Override
     public McmeProxyPlayer getPlayer(UUID uuid) {
-        ProxiedPlayer proxiedPlayer = ProxyServer.getInstance().getPlayer(uuid);
-        return proxiedPlayer!=null ? new BungeeMcmePlayer(proxiedPlayer) : null;
+        /*ProxiedPlayer proxiedPlayer = ProxyServer.getInstance().getPlayer(uuid);
+        return proxiedPlayer!=null ? new BungeeMcmePlayer(proxiedPlayer) : null;*/
+        return new BungeeMcmePlayer(uuid);
     }
 
     @Override
@@ -84,11 +89,32 @@ public class BungeeMcmeProxy implements McmeProxy {
 
     @Override
     public McmeCommandSender getConsole() {
-        return new BungeeMcmeCommandSender(ProxyServer.getInstance().getConsole());
+        return new BungeeMcmeConsole();
+    }
+
+    public McmeCommandSender getMcmeCommandSender(CommandSender commandSender) {
+        if(commandSender instanceof ProxiedPlayer) {
+            return new BungeeMcmePlayer((ProxiedPlayer)commandSender);
+        } else if(commandSender.equals(ProxyServer.getInstance().getConsole())) {
+            return new BungeeMcmeConsole();
+        } else {
+            throw new UnsupportedOperationException("MCME-Base only supported players and console as command senders.");
+        }
     }
 
     @Override
     public ScoreboardManager getScoreboardManager() {
+        return null;
+    }
+
+    @Override
+    public McmeServerInfo getAnyConnectedServerInfo() {
+        for(McmeProxyPlayer player: getPlayers()) {
+            McmeServerInfo server = player.getServerInfo();
+            if(server != null) {
+                return server;
+            }
+        }
         return null;
     }
 

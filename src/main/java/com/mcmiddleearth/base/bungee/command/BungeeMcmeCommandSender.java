@@ -15,22 +15,18 @@ import net.md_5.bungee.api.chat.BaseComponent;
 import java.util.Arrays;
 import java.util.logging.Logger;
 
-public class BungeeMcmeCommandSender implements McmeCommandSender {
-
-    private final CommandSender commandSender;
-
-    public BungeeMcmeCommandSender(CommandSender commandSender) {
-        this.commandSender = commandSender;
-    }
+public abstract class BungeeMcmeCommandSender implements McmeCommandSender {
 
     @Override
     public boolean hasPermission(String permissionNode) {
-        return commandSender.hasPermission(permissionNode);
+        CommandSender sender = getBungeeCommandSender();
+        return sender!=null && sender.hasPermission(permissionNode);
     }
 
     @Override
     public String getName() {
-        return commandSender.getName();
+        CommandSender sender = getBungeeCommandSender();
+        return sender != null? sender.getName() : "NULL";
     }
 
     @Override
@@ -44,7 +40,13 @@ public class BungeeMcmeCommandSender implements McmeCommandSender {
 //Logger.getGlobal().info("Sender: "+commandSender.toString());
 //Arrays.stream(baseComponents).forEach(comp -> Logger.getGlobal().info(comp.toString()));
 //Arrays.stream(baseComponents).forEach(comp -> Logger.getGlobal().info(comp.toLegacyText()));
-        Arrays.stream(baseComponents).forEach(comp -> commandSender.sendMessage(comp.toLegacyText()));
+        if(getBungeeCommandSender() != null) {
+            Arrays.stream(baseComponents).forEach(comp -> getBungeeCommandSender().sendMessage(comp.toLegacyText()));
+        } else {
+            Logger.getGlobal().info("Null command sender!!!");
+        }
         //commandSender.sendMessage(baseComponents);
     }
+
+    protected abstract CommandSender getBungeeCommandSender();
 }
