@@ -36,10 +36,10 @@ public abstract class BungeeMcmeCommandSender implements McmeCommandSender {
         BaseComponent[] baseComponents = BungeeComponentSerializer.get()
                 .serialize(AdventureUtils.addBaseColor(baseColor, component));
         JSONComponentSerializer.json().serialize(AdventureUtils.addBaseColor(baseColor, component));
-        //commandSender.
-//Logger.getGlobal().info("Sender: "+commandSender.toString());
-//Arrays.stream(baseComponents).forEach(comp -> Logger.getGlobal().info(comp.toString()));
-//Arrays.stream(baseComponents).forEach(comp -> Logger.getGlobal().info(comp.toLegacyText()));
+        /*commandSender.
+        Logger.getGlobal().info("Sender: "+commandSender.toString());
+        Arrays.stream(baseComponents).forEach(comp -> Logger.getGlobal().info(comp.toString()));
+        Arrays.stream(baseComponents).forEach(comp -> Logger.getGlobal().info(comp.toLegacyText()));*/
         if(getBungeeCommandSender() != null) {
             Arrays.stream(baseComponents).forEach(comp -> getBungeeCommandSender().sendMessage(comp.toLegacyText()));
         } else {

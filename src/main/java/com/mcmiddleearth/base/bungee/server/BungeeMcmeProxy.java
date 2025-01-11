@@ -72,8 +72,6 @@ public class BungeeMcmeProxy implements McmeProxy {
 
     @Override
     public McmeProxyPlayer getPlayer(UUID uuid) {
-        /*ProxiedPlayer proxiedPlayer = ProxyServer.getInstance().getPlayer(uuid);
-        return proxiedPlayer!=null ? new BungeeMcmePlayer(proxiedPlayer) : null;*/
         return new BungeeMcmePlayer(uuid);
     }
 
