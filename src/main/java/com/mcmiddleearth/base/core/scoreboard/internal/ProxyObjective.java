@@ -43,7 +43,7 @@ public class ProxyObjective implements Objective {
     @Override
     public void displayName(@Nullable Message displayName) {
         this.displayName = displayName;
-        scoreboardManager.updateCustomName(this);
+        //todo scoreboardManager.updateCustomName(this);
     }
 
     @Override
@@ -72,7 +72,7 @@ public class ProxyObjective implements Objective {
         if(score == null) {
             score = scoreboard.createProxyScore(entry, entry, 0);
             scores.add(score);
-            scoreboardManager.updateValue(score);
+            //todo scoreboardManager.updateValue(score);
         }
         return score;
     }
@@ -105,7 +105,7 @@ public class ProxyObjective implements Objective {
     @Override
     public void numberFormat(NumberFormat format) {
         this.numberFormat = format;
-        scoreboardManager.updateNumberFormat(this);
+        //todo scoreboardManager.updateNumberFormat(this);
     }
 
     @Override
@@ -116,13 +116,13 @@ public class ProxyObjective implements Objective {
     @Override
     public void setDisplaySlot(@Nullable DisplaySlot slot) {
         this.displaySlot = slot;
-        scoreboardManager.updateDisplayName(this);
+        //todo scoreboardManager.updateDisplayName(this);
     }
 
     @Override
     public void setRenderType(@NotNull RenderType renderType) {
         this.renderType = renderType;
-        scoreboardManager.updateRenderType(this);
+        //todo scoreboardManager.updateRenderType(this);
     }
 
     @Override

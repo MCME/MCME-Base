@@ -8,25 +8,25 @@ import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.NamedTextColor;
 import net.kyori.adventure.text.format.TextColor;
 import net.kyori.adventure.text.serializer.bungeecord.BungeeComponentSerializer;
+import net.kyori.adventure.text.serializer.json.JSONComponentSerializer;
 import net.md_5.bungee.api.CommandSender;
 import net.md_5.bungee.api.chat.BaseComponent;
 
-public class BungeeMcmeCommandSender implements McmeCommandSender {
+import java.util.Arrays;
+import java.util.logging.Logger;
 
-    private final CommandSender commandSender;
-
-    public BungeeMcmeCommandSender(CommandSender commandSender) {
-        this.commandSender = commandSender;
-    }
+public abstract class BungeeMcmeCommandSender implements McmeCommandSender {
 
     @Override
     public boolean hasPermission(String permissionNode) {
-        return commandSender.hasPermission(permissionNode);
+        CommandSender sender = getBungeeCommandSender();
+        return sender!=null && sender.hasPermission(permissionNode);
     }
 
     @Override
     public String getName() {
-        return commandSender.getName();
+        CommandSender sender = getBungeeCommandSender();
+        return sender != null? sender.getName() : "NULL";
     }
 
     @Override
@@ -35,8 +35,18 @@ public class BungeeMcmeCommandSender implements McmeCommandSender {
         TextColor baseColor = component.color() != null ? component.color() : NamedTextColor.WHITE;
         BaseComponent[] baseComponents = BungeeComponentSerializer.get()
                 .serialize(AdventureUtils.addBaseColor(baseColor, component));
-        //Logger.getGlobal().info("Sender: "+commandSender.toString());
-        //Arrays.stream(baseComponents).forEach(component -> Logger.getGlobal().info(component.toLegacyText()));
-        commandSender.sendMessage(baseComponents);
+        JSONComponentSerializer.json().serialize(AdventureUtils.addBaseColor(baseColor, component));
+        /*commandSender.
+        Logger.getGlobal().info("Sender: "+commandSender.toString());
+        Arrays.stream(baseComponents).forEach(comp -> Logger.getGlobal().info(comp.toString()));
+        Arrays.stream(baseComponents).forEach(comp -> Logger.getGlobal().info(comp.toLegacyText()));*/
+        if(getBungeeCommandSender() != null) {
+            Arrays.stream(baseComponents).forEach(comp -> getBungeeCommandSender().sendMessage(comp.toLegacyText()));
+        } else {
+            Logger.getGlobal().info("Null command sender!!!");
+        }
+        //commandSender.sendMessage(baseComponents);
     }
+
+    protected abstract CommandSender getBungeeCommandSender();
 }

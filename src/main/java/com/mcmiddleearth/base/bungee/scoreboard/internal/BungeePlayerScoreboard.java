@@ -16,12 +16,12 @@ public class BungeePlayerScoreboard implements PlayerScoreboard {
     ProxiedPlayer player;
 
     public BungeePlayerScoreboard(BungeeMcmePlayer player) {
-        this.player = player.getProxiedPlayer();
+        this.player = player.getBungeePlayer();
     }
 
     @Override
     public void addObjective(Objective objective) {
-        player.getScoreboard().addObjective(((BungeeObjective)objective).getObjective;
+        //todo player.getScoreboard().addObjective(((BungeeObjective)objective).getObjective());
     }
 
     @Override

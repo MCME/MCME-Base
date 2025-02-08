@@ -14,6 +14,7 @@ public class MessageStyle {
 
     public MessageStyle(MessageColor color) {
         this.color = color;
+        decorations = new MessageDecoration[0];
     }
 
     public MessageStyle(MessageColor color, MessageDecoration... decorations) {

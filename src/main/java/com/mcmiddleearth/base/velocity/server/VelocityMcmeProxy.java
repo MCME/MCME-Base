@@ -103,5 +103,10 @@ public class VelocityMcmeProxy implements McmeProxy {
         return scoreboardManager;
     }
 
+    @Override
+    public McmeServerInfo getAnyConnectedServerInfo() {
+        return null;
+    }
+
 
 }

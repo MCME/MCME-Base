@@ -38,7 +38,7 @@ public class ProxyScore implements Score {
     @Override
     public void customName(@Nullable Message customName) {
         this.customName = customName;
-        scoreboardManager.updateCustomName(this);
+        //todo scoreboardManager.updateCustomName(this);
     }
 
     @Override
@@ -91,21 +91,21 @@ public class ProxyScore implements Score {
     @Override
     public void numberFormat(NumberFormat format) {
         this.numberFormat = format;
-        scoreboardManager.updateNumberFormat(this);
+        //todo scoreboardManager.updateNumberFormat(this);
     }
 
     @Override
     public void resetScore() {
         isSet = false;
         score = 0;
-        scoreboardManager.updateValue(this);
+        //todo scoreboardManager.updateValue(this);
     }
 
     @Override
     public void setScore(int score) {
         this.score = score;
         isSet = true;
-        scoreboardManager.updateValue(this);
+        //todo scoreboardManager.updateValue(this);
     }
 
     @Override
