@@ -4,13 +4,11 @@ import com.mcmiddleearth.base.bukkit.AbstractPaperPlugin;
 import com.mcmiddleearth.base.bukkit.command.BukkitMcmeCommandSender;
 import com.mcmiddleearth.base.bukkit.player.BukkitMcmePlayer;
 import com.mcmiddleearth.base.bukkit.scoreboard.BukkitScoreboardManager;
-import com.mcmiddleearth.base.bungee.command.BungeeMcmeConsole;
-import com.mcmiddleearth.base.bungee.player.BungeeMcmePlayer;
 import com.mcmiddleearth.base.core.command.McmeCommandSender;
+import com.mcmiddleearth.base.core.message.Message;
 import com.mcmiddleearth.base.core.player.McmeBackendPlayer;
 import com.mcmiddleearth.base.core.scoreboard.ScoreboardManager;
 import com.mcmiddleearth.base.core.server.McmeBackend;
-import net.kyori.adventure.text.Component;
 import org.bukkit.Bukkit;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
@@ -28,12 +26,12 @@ public class PaperMcmeBackend implements McmeBackend {
     }
 
     @Override
-    public void stop(Component message) {
+    public void stop(Message message) {
 
     }
 
     @Override
-    public void broadcast(Component message) {
+    public void broadcast(Message message) {
 
     }
 

@@ -3,6 +3,7 @@ package com.mcmiddleearth.base.velocity;
 import com.mcmiddleearth.base.core.logger.McmeLogger;
 import com.mcmiddleearth.base.core.plugin.McmeProxyPlugin;
 import com.mcmiddleearth.base.core.server.McmeProxy;
+import com.mcmiddleearth.base.core.server.McmeServer;
 import com.mcmiddleearth.base.core.taskScheduling.Task;
 import com.mcmiddleearth.base.velocity.logger.VelocityMcmeLogger;
 import com.mcmiddleearth.base.velocity.server.VelocityMcmeProxy;
@@ -74,6 +75,11 @@ public abstract class AbstractVelocityPlugin implements McmeProxyPlugin {
 
     @Override
     public final McmeProxy getMcmeProxy() {
+        return mcmeProxy;
+    }
+
+    @Override
+    public McmeServer getMcmeServer() {
         return mcmeProxy;
     }
 }

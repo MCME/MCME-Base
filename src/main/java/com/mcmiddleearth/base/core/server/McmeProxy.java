@@ -8,15 +8,11 @@ import com.mcmiddleearth.base.core.scoreboard.ScoreboardManager;
 import java.util.Collection;
 import java.util.UUID;
 
-public interface McmeProxy {
+public interface McmeProxy extends McmeServer {
 
     McmeServerInfo getServerInfo(String serverName);
 
     Collection<McmeServerInfo> getAllServerInfo();
-
-    void stop(Message message);
-
-    void broadcast(Message message);
 
     Collection<McmeProxyPlayer> getPlayers();
 

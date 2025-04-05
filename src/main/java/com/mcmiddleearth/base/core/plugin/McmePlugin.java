@@ -5,7 +5,7 @@ import com.mcmiddleearth.base.core.logger.McmeLogger;
 import com.mcmiddleearth.base.core.message.McmeColors;
 import com.mcmiddleearth.base.core.message.Message;
 import com.mcmiddleearth.base.core.message.MessageStyle;
-import com.mcmiddleearth.base.core.scoreboard.ScoreboardManager;
+import com.mcmiddleearth.base.core.server.McmeServer;
 import com.mcmiddleearth.base.core.taskScheduling.Task;
 import net.kyori.adventure.text.serializer.gson.GsonComponentSerializer;
 
@@ -18,6 +18,8 @@ public interface McmePlugin {
     Task getTask(Runnable runnable);
 
     File getDataFolder();
+
+    McmeServer getMcmeServer();
 
     McmeLogger getMcmeLogger();
 

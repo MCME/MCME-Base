@@ -11,6 +11,7 @@ import com.mcmiddleearth.base.core.logger.McmeLogger;
 import com.mcmiddleearth.base.core.player.McmeBackendPlayer;
 import com.mcmiddleearth.base.core.plugin.McmeBackendPlugin;
 import com.mcmiddleearth.base.core.server.McmeBackend;
+import com.mcmiddleearth.base.core.server.McmeServer;
 import com.mcmiddleearth.base.core.taskScheduling.Task;
 import net.kyori.adventure.text.serializer.plain.PlainTextComponentSerializer;
 import org.bukkit.Bukkit;
@@ -58,5 +59,10 @@ public abstract class AbstractPaperPlugin extends JavaPlugin implements McmeBack
     @Override
     public final McmeLogger getMcmeLogger() {
         return mcmeLogger;
+    }
+
+    @Override
+    public McmeServer getMcmeServer() {
+        return mcmeBackend;
     }
 }

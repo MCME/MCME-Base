@@ -8,11 +8,7 @@ import net.kyori.adventure.text.Component;
 import java.util.Collection;
 import java.util.UUID;
 
-public interface McmeBackend {
-
-    void stop(Component message);
-
-    void broadcast(Component message);
+public interface McmeBackend extends McmeServer {
 
     Collection<McmeBackendPlayer> getPlayers();
 
