@@ -21,18 +21,26 @@ public abstract class AbstractBungeePlugin extends Plugin implements McmeProxyPl
     private final BungeeMcmeProxy mcmeProxy = new BungeeMcmeProxy(this);
 
     @Override
-    public void onEnable() {
+    public final void onEnable() {
         adventure = BungeeAudiences.create(this);
-        mcmeLogger = new BungeeMcmeLogger(getLogger());//, PlainTextComponentSerializer.plainText()
-                                                    //.serialize(((AdventureMessage)getMessagePrefix()).getComponent()));
+        mcmeLogger = new BungeeMcmeLogger(getLogger());
+        mcmeLogger.info("Enabling plugin on Bungee proxy!");
+        enable();
+        mcmeLogger.info("Plugin enabled!");
     }
 
     @Override
-    public void onDisable() {
+    public final void onDisable() {
+        mcmeLogger.info("Disabling plugin!");
+        disable();
+        mcmeLogger.info("Plugin disabled!");
         adventure.close();
     }
 
-    public Task getTask(Runnable task) {
+    public abstract void enable();
+    public abstract void disable();
+
+    public final Task getTask(Runnable task) {
         return new BungeeTask(this, task);
     }
 
@@ -42,12 +50,12 @@ public abstract class AbstractBungeePlugin extends Plugin implements McmeProxyPl
     }
 
     @Override
-    public McmeProxy getMcmeProxy() {
+    public final McmeProxy getMcmeProxy() {
         return mcmeProxy;
     }
 
     @Override
-    public McmeLogger getMcmeLogger() {
+    public final McmeLogger getMcmeLogger() {
         return mcmeLogger;
     }
 

@@ -29,10 +29,20 @@ public class VelocityBasePlugin extends AbstractVelocityPlugin {
         instance = this;
     }
 
-    @Subscribe
+    @Override
+    public void enable() {
+        //nothing to do
+    }
+
+    @Override
+    public void disable() {
+        //nothing to do
+    }
+
+    /*@Subscribe
     public void onProxyInitialization(ProxyInitializeEvent event) {
         getMcmeProxy().getConsole().sendMessage(createInfoMessage().add("Initialized on Velocity proxy!"));
-    }
+    }*/
 
     @Override
     public Message getMessagePrefix() {

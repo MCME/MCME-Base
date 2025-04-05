@@ -1,6 +1,8 @@
 package com.mcmiddleearth.base.velocity.server;
 
 import com.mcmiddleearth.base.adventure.AdventureMessage;
+import com.mcmiddleearth.base.bukkit.command.BukkitMcmeCommandSender;
+import com.mcmiddleearth.base.bukkit.player.BukkitMcmePlayer;
 import com.mcmiddleearth.base.core.command.McmeCommandSender;
 import com.mcmiddleearth.base.core.message.Message;
 import com.mcmiddleearth.base.core.player.McmeProxyPlayer;
@@ -10,9 +12,9 @@ import com.mcmiddleearth.base.core.server.McmeServerInfo;
 import com.mcmiddleearth.base.velocity.command.VelocityMcmeCommandSender;
 import com.mcmiddleearth.base.velocity.player.VelocityMcmePlayer;
 import com.mcmiddleearth.base.velocity.scoreboard.VelocityScoreboardManager;
+import com.velocitypowered.api.command.CommandSource;
 import com.velocitypowered.api.proxy.Player;
 import com.velocitypowered.api.proxy.ProxyServer;
-import com.velocitypowered.api.proxy.messages.MinecraftChannelIdentifier;
 import com.velocitypowered.api.proxy.server.RegisteredServer;
 
 import java.util.Collection;
@@ -22,11 +24,11 @@ import java.util.stream.Collectors;
 
 public class VelocityMcmeProxy implements McmeProxy {
 
-    private final ProxyServer proxyServer;
+    private static ProxyServer proxyServer;
     private final VelocityScoreboardManager scoreboardManager;
 
     public VelocityMcmeProxy(ProxyServer proxyServer) {
-        this.proxyServer = proxyServer;
+        VelocityMcmeProxy.proxyServer = proxyServer;
         this.scoreboardManager = new VelocityScoreboardManager();
     }
 
@@ -68,8 +70,18 @@ public class VelocityMcmeProxy implements McmeProxy {
         }
     }
 
-    public VelocityMcmePlayer getPlayer(Player player) {
+    public static VelocityMcmePlayer getPlayer(Player player) {
         return new VelocityMcmePlayer(player);
+    }
+
+    public static McmeCommandSender getMcmeCommandSender(CommandSource commandSender) {
+        if(commandSender instanceof Player player) {
+            return new VelocityMcmePlayer(player);
+        } else if(commandSender.equals(proxyServer.getConsoleCommandSource())) {
+            return new VelocityMcmeCommandSender(proxyServer.getConsoleCommandSource());
+        } else {
+            throw new UnsupportedOperationException("MCME-Base only supported players and console as command senders.");
+        }
     }
 
     @Override

@@ -5,11 +5,22 @@ import com.mcmiddleearth.base.core.message.Message;
 
 public class PaperBasePlugin extends AbstractPaperPlugin {
 
-    @Override
+    /*@Override
     public void onEnable() {
         super.onEnable();
         getMcmeBackend().getConsole().sendMessage(createInfoMessage().add("Enabled on Paper server!"));
+    }*/
+
+    @Override
+    public void enable() {
+        //nothing to do
     }
+
+    @Override
+    public void disable() {
+        //nothing to do
+    }
+
 
     @Override
     public Message getMessagePrefix() {

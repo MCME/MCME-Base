@@ -27,29 +27,36 @@ public abstract class AbstractPaperPlugin extends JavaPlugin implements McmeBack
     private McmeLogger mcmeLogger;
 
     @Override
-    public void onEnable() {
+    public final void onEnable() {
         // Plugin startup logic
-        this.mcmeLogger = new BukkitMcmeLogger(getLogger());//, PlainTextComponentSerializer.plainText()
-                //.serialize(((AdventureMessage)getMessagePrefix()).getComponent()));
+        this.mcmeLogger = new BukkitMcmeLogger(getLogger());
+        mcmeLogger.info("Enabling plugin on Paper server!");
+        enable();
+        mcmeLogger.info("Plugin enabled!");
     }
 
     @Override
-    public void onDisable() {
-        // Plugin shutdown logic
+    public final void onDisable() {
+        mcmeLogger.info("Disabling plugin on Paper proxy!");
+        disable();
+        mcmeLogger.info("Plugin enabled!");
     }
 
+    public abstract void enable();
+    public abstract void disable();
+
     @Override
-    public Task getTask(Runnable runnable) {
+    public final Task getTask(Runnable runnable) {
         return new BukkitTask(this, runnable);
     }
 
     @Override
-    public McmeBackend getMcmeBackend() {
+    public final McmeBackend getMcmeBackend() {
         return mcmeBackend;
     }
 
     @Override
-    public McmeLogger getMcmeLogger() {
+    public final McmeLogger getMcmeLogger() {
         return mcmeLogger;
     }
 }

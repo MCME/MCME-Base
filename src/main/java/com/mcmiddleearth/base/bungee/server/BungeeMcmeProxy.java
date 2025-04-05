@@ -81,16 +81,16 @@ public class BungeeMcmeProxy implements McmeProxy {
         return proxiedPlayer!=null ? new BungeeMcmePlayer(proxiedPlayer) : null;
     }
 
-    public BungeeMcmePlayer getPlayer(ProxiedPlayer player) {
-        return new BungeeMcmePlayer(player);
-    }
-
     @Override
     public McmeCommandSender getConsole() {
         return new BungeeMcmeConsole();
     }
 
-    public McmeCommandSender getMcmeCommandSender(CommandSender commandSender) {
+    public static BungeeMcmePlayer getPlayer(ProxiedPlayer player) {
+        return new BungeeMcmePlayer(player);
+    }
+
+    public static McmeCommandSender getMcmeCommandSender(CommandSender commandSender) {
         if(commandSender instanceof ProxiedPlayer) {
             return new BungeeMcmePlayer((ProxiedPlayer)commandSender);
         } else if(commandSender.equals(ProxyServer.getInstance().getConsole())) {
