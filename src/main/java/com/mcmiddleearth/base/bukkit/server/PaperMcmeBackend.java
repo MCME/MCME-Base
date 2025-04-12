@@ -2,6 +2,7 @@ package com.mcmiddleearth.base.bukkit.server;
 
 import com.mcmiddleearth.base.bukkit.AbstractPaperPlugin;
 import com.mcmiddleearth.base.bukkit.command.BukkitMcmeCommandSender;
+import com.mcmiddleearth.base.bukkit.command.BukkitMcmeConsole;
 import com.mcmiddleearth.base.bukkit.player.BukkitMcmePlayer;
 import com.mcmiddleearth.base.bukkit.scoreboard.BukkitScoreboardManager;
 import com.mcmiddleearth.base.core.command.McmeCommandSender;
@@ -59,7 +60,7 @@ public class PaperMcmeBackend implements McmeBackend {
         if(commandSender instanceof Player) {
             return new BukkitMcmePlayer((Player)commandSender);
         } else if(commandSender.equals(Bukkit.getConsoleSender())) {
-            return new BukkitMcmeCommandSender(Bukkit.getConsoleSender());
+            return new BukkitMcmeConsole();
         } else {
             throw new UnsupportedOperationException("MCME-Base only supported players and console as command senders.");
         }
@@ -67,7 +68,7 @@ public class PaperMcmeBackend implements McmeBackend {
 
     @Override
     public McmeCommandSender getConsole() {
-        return new BukkitMcmeCommandSender(Bukkit.getConsoleSender());
+        return new BukkitMcmeConsole();
     }
 
     @Override

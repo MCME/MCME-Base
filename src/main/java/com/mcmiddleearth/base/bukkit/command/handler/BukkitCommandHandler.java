@@ -3,6 +3,7 @@ package com.mcmiddleearth.base.bukkit.command.handler;
 import com.google.common.base.Joiner;
 import com.mcmiddleearth.base.bukkit.AbstractPaperPlugin;
 import com.mcmiddleearth.base.bukkit.command.BukkitMcmeCommandSender;
+import com.mcmiddleearth.base.bukkit.command.BukkitMcmeConsole;
 import com.mcmiddleearth.base.bukkit.player.BukkitMcmePlayer;
 import com.mcmiddleearth.base.core.command.McmeCommandSender;
 import com.mcmiddleearth.base.core.command.SimpleTabCompleteRequest;
@@ -36,7 +37,7 @@ public abstract class BukkitCommandHandler extends AbstractCommandHandler implem
         if(commandSender instanceof Player) {
             wrappedSender = new BukkitMcmePlayer((Player)commandSender);
         } else if(commandSender instanceof ConsoleCommandSender) {
-            wrappedSender = new BukkitMcmeCommandSender(commandSender);
+            wrappedSender = new BukkitMcmeConsole();
         } else {
             return false;
         }
@@ -50,7 +51,7 @@ public abstract class BukkitCommandHandler extends AbstractCommandHandler implem
         if(commandSender instanceof Player) {
             wrappedSender = new BukkitMcmePlayer((Player)commandSender);
         } else if(commandSender instanceof ConsoleCommandSender) {
-            wrappedSender = new BukkitMcmeCommandSender(commandSender);
+            wrappedSender = new BukkitMcmeConsole();
         } else {
             return Collections.emptyList();
         }

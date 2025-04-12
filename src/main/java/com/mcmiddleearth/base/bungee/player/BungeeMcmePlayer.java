@@ -17,19 +17,19 @@ import java.util.UUID;
 
 public class BungeeMcmePlayer extends BungeeMcmeCommandSender implements McmeProxyPlayer {
 
-    private final UUID uniqueId;
+    private final ProxiedPlayer player;
 
     public BungeeMcmePlayer(ProxiedPlayer player) {
-        this.uniqueId = player.getUniqueId();
+        this.player = player;
     }
 
     public BungeeMcmePlayer(UUID uniqueId) {
-        this.uniqueId = uniqueId;
+        this.player = ProxyServer.getInstance().getPlayer(uniqueId);
     }
 
     @Override
     public UUID getUniqueId() {
-        return uniqueId;
+        return player.getUniqueId();
     }
 
     @Override
@@ -86,19 +86,16 @@ public class BungeeMcmePlayer extends BungeeMcmeCommandSender implements McmePro
 
     @Override
     public boolean equals(Object other) {
-        ProxiedPlayer thisPlayer = getBungeePlayer();
         return other instanceof BungeeMcmePlayer otherPlayer
-                && thisPlayer != null
-                && otherPlayer.getUniqueId().equals(uniqueId)
-                && otherPlayer.getName().equals(thisPlayer.getName());
+                && otherPlayer.player.equals(player);
     }
 
     @Override
     protected CommandSender getBungeeCommandSender() {
-        return ProxyServer.getInstance().getPlayer(uniqueId);
+        return player;
     }
 
     public ProxiedPlayer getBungeePlayer() {
-        return ProxyServer.getInstance().getPlayer(uniqueId);
+        return player;
     }
 }

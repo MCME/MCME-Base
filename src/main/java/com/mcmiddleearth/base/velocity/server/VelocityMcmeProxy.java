@@ -10,6 +10,7 @@ import com.mcmiddleearth.base.core.scoreboard.ScoreboardManager;
 import com.mcmiddleearth.base.core.server.McmeProxy;
 import com.mcmiddleearth.base.core.server.McmeServerInfo;
 import com.mcmiddleearth.base.velocity.command.VelocityMcmeCommandSender;
+import com.mcmiddleearth.base.velocity.command.VelocityMcmeConsole;
 import com.mcmiddleearth.base.velocity.player.VelocityMcmePlayer;
 import com.mcmiddleearth.base.velocity.scoreboard.VelocityScoreboardManager;
 import com.velocitypowered.api.command.CommandSource;
@@ -78,7 +79,7 @@ public class VelocityMcmeProxy implements McmeProxy {
         if(commandSender instanceof Player player) {
             return new VelocityMcmePlayer(player);
         } else if(commandSender.equals(proxyServer.getConsoleCommandSource())) {
-            return new VelocityMcmeCommandSender(proxyServer.getConsoleCommandSource());
+            return new VelocityMcmeConsole();
         } else {
             throw new UnsupportedOperationException("MCME-Base only supported players and console as command senders.");
         }
@@ -107,7 +108,7 @@ public class VelocityMcmeProxy implements McmeProxy {
 
     @Override
     public McmeCommandSender getConsole() {
-        return new VelocityMcmeCommandSender(proxyServer.getConsoleCommandSource());
+        return new VelocityMcmeConsole();
     }
 
     @Override

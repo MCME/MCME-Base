@@ -1,6 +1,7 @@
 package com.mcmiddleearth.base.core.command.handler;
 
 import com.google.common.base.Joiner;
+import com.mcmiddleearth.base.VelocityBasePlugin;
 import com.mcmiddleearth.base.core.command.McmeCommandSender;
 import com.mcmiddleearth.base.core.command.TabCompleteRequest;
 import com.mcmiddleearth.base.core.command.builder.HelpfulLiteralBuilder;
@@ -35,6 +36,9 @@ public abstract class AbstractCommandHandler {
         this.command = command;
         this.plugin = plugin;
         commandDispatcher.register(createCommandTree( HelpfulLiteralBuilder.literal(command)));
+commandDispatcher.getRoot().getChildren().forEach(node -> Logger.getGlobal().info(node.getName()));
+Logger.getGlobal().info("End children in Abstract command handler.");
+
     }
 
     /**
@@ -57,12 +61,21 @@ public abstract class AbstractCommandHandler {
 
     public void handle(McmeCommandSender sender, String command, String[] args) {
         try {
+//VelocityBasePlugin.getInstance().getMcmeLogger().info("handler: "+this + " "+ commandDispatcher);
+//commandDispatcher.getRoot().getChildren().forEach(
+//        node -> VelocityBasePlugin.getInstance().getMcmeLogger().info(node.getName()));
+//VelocityBasePlugin.getInstance().getMcmeLogger().info("End children in Abstract command handler.handle.");
             String message = String.format("%s %s", command, Joiner.on(' ').join(args)).trim();
+//VelocityBasePlugin.getInstance().getMcmeLogger().info(message);
             ParseResults<McmeCommandSender> result = commandDispatcher.parse(message, sender);
             result.getExceptions().entrySet().stream()
                     .findFirst().ifPresent(error -> sender.sendMessage(plugin.createErrorMessage()
                                                           .add(error.getValue().getMessage())));
             if(result.getExceptions().isEmpty()) {
+//VelocityBasePlugin.getInstance().getMcmeLogger().info("Parse results: ");
+//result.getContext().getNodes().forEach(node -> VelocityBasePlugin.getInstance().getMcmeLogger().info(node.getNode().getName()));
+//VelocityBasePlugin.getInstance().getMcmeLogger().info("command: "+result.getContext().getCommand());
+//VelocityBasePlugin.getInstance().getMcmeLogger().info("context: "+result.getContext().getRange().getEnd() +" < "+ result.getReader().getString().length());
                 if(!result.getContext().getNodes().isEmpty()
                         && (result.getContext().getCommand()==null
                             || result.getContext().getRange().getEnd() < result.getReader().getString().length())) {

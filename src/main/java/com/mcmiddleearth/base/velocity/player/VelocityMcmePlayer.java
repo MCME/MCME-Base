@@ -8,6 +8,7 @@ import com.mcmiddleearth.base.core.server.McmeServerInfo;
 import com.mcmiddleearth.base.core.taskScheduling.Callback;
 import com.mcmiddleearth.base.velocity.command.VelocityMcmeCommandSender;
 import com.mcmiddleearth.base.velocity.server.VelocityMcmeServerInfo;
+import com.velocitypowered.api.command.CommandSource;
 import com.velocitypowered.api.proxy.Player;
 import com.velocitypowered.api.proxy.ProxyServer;
 import com.velocitypowered.api.proxy.ServerConnection;
@@ -23,7 +24,6 @@ public class VelocityMcmePlayer extends VelocityMcmeCommandSender implements Mcm
     private final Player player;
 
     public VelocityMcmePlayer(Player player) {
-        super(player);
         this.player = player;
     }
 
@@ -80,5 +80,20 @@ public class VelocityMcmePlayer extends VelocityMcmeCommandSender implements Mcm
     @Override
     public boolean isConnected() {
         return player.getCurrentServer().isPresent();
+    }
+
+    @Override
+    public boolean equals(Object other) {
+        return other instanceof VelocityMcmePlayer otherPlayer
+                && otherPlayer.player.equals(this.player);
+    }
+
+    public Player getVelocityPlayer() {
+        return player;
+    }
+
+    @Override
+    public CommandSource getVelocityCommandSource() {
+        return player;
     }
 }
