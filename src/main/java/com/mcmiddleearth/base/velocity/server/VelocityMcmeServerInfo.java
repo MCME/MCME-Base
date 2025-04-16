@@ -1,5 +1,7 @@
 package com.mcmiddleearth.base.velocity.server;
 
+import com.google.common.io.ByteArrayDataInput;
+import com.google.common.io.ByteStreams;
 import com.mcmiddleearth.base.VelocityBasePlugin;
 import com.mcmiddleearth.base.core.server.McmeServerInfo;
 import com.mcmiddleearth.base.core.server.McmeServerPing;
@@ -60,7 +62,13 @@ public class VelocityMcmeServerInfo implements McmeServerInfo {
     @Override
     public boolean sendPluginMessage(String channel, byte[] data, boolean queue) {
         RegisteredServer registeredServer =  proxyServer.getServer(serverInfo.getName()).orElse(null);
-        return registeredServer!=null && registeredServer.sendPluginMessage(MinecraftChannelIdentifier.from(channel), data);
+//VelocityBasePlugin.getInstance().getMcmeLogger().info(registeredServer+" - Channel: "+channel);
+        boolean result = registeredServer!=null && registeredServer.sendPluginMessage(MinecraftChannelIdentifier.from(channel), data);
+//VelocityBasePlugin.getInstance().getMcmeLogger().info("Send successful: "+result);
+        ByteArrayDataInput in = ByteStreams.newDataInput(data);
+        String subchannel = in.readUTF();
+//VelocityBasePlugin.getInstance().getMcmeLogger().info("Send successful to subchannel: "+subchannel);
+        return result;
     }
 
 

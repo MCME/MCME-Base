@@ -1,5 +1,6 @@
 package com.mcmiddleearth.base.core.plugin;
 
+import com.google.gson.JsonSyntaxException;
 import com.mcmiddleearth.base.adventure.AdventureMessage;
 import com.mcmiddleearth.base.core.logger.McmeLogger;
 import com.mcmiddleearth.base.core.message.McmeColors;
@@ -8,6 +9,7 @@ import com.mcmiddleearth.base.core.message.MessageStyle;
 import com.mcmiddleearth.base.core.server.McmeServer;
 import com.mcmiddleearth.base.core.taskScheduling.Task;
 import net.kyori.adventure.text.serializer.gson.GsonComponentSerializer;
+import net.kyori.adventure.text.serializer.legacy.LegacyComponentSerializer;
 
 import java.io.*;
 
@@ -43,7 +45,11 @@ public interface McmePlugin {
     default Message emptyMessage() { return new AdventureMessage(); }
 
     default Message deserializeMessage(String message) {
-        return new AdventureMessage(GsonComponentSerializer.gson().deserialize(message));
+        try {
+            return new AdventureMessage(GsonComponentSerializer.gson().deserialize(message));
+        } catch (JsonSyntaxException ex) {
+            return new AdventureMessage(LegacyComponentSerializer.legacySection().deserialize(message));
+        }
     }
 
     default String serializeMessage(Message message) {
