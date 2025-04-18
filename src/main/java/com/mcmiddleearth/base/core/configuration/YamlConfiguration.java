@@ -24,6 +24,9 @@ public class YamlConfiguration {
         } catch (FileNotFoundException ex) {
             Logger.getLogger(YamlConfiguration.class.getName()).log(Level.SEVERE, null, ex);
         }
+        if(map == null){
+            map = new HashMap<>();
+        }
     }
 
     public void save(File file) {

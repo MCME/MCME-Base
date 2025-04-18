@@ -15,7 +15,7 @@ import java.nio.file.Path;
 @Plugin(
         id = "mcme-base",
         name = "MCME-Base",
-        version = "1.0-SNAPSHOT",
+        version = "1.1-SNAPSHOT",
         description = "Base functionality for MCME plugins",
         authors = {"Eriol_Eandur"}
 )
