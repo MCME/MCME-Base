@@ -16,4 +16,6 @@ public interface Message {
     Message addClick(MessageClickEvent messageClickEvent);
 
     boolean isEmpty();
+
+    String getPlainText();
 }

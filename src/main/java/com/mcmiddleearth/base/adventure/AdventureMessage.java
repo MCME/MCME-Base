@@ -101,4 +101,9 @@ public class AdventureMessage implements Message {
     public String toString() {
         return PlainTextComponentSerializer.plainText().serialize(component);
     }
+
+    @Override
+    public String getPlainText() {
+        return toString();
+    }
 }
