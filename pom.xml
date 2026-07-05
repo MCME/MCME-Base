@@ -13,7 +13,7 @@
 
     <description>Base functionality for MCME plugins</description>
     <properties>
-        <java.version>21</java.version>
+        <java.version>25</java.version>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     </properties>
 
@@ -26,45 +26,6 @@
                 <configuration>
                     <release>${java.version}</release>
                 </configuration>
-            </plugin>
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-shade-plugin</artifactId>
-                <version>3.4.1</version>
-                <executions>
-                    <execution>
-                        <phase>package</phase>
-                        <goals>
-                            <goal>shade</goal>
-                        </goals>
-                        <configuration>
-                            <createDependencyReducedPom>false</createDependencyReducedPom>
-                            <minimizeJar>false</minimizeJar>
-                            <artifactSet>
-                                <includes>
-                                    <include>net.kyori:adventure-api</include>
-                                    <include>net.kyori:adventure-key</include>
-                                    <include>net.kyori:option</include>
-                                    <include>net.kyori:adventure-platform-api</include>
-                                    <include>net.kyori:adventure-platform-bungeecord</include>
-                                    <include>net.kyori:adventure-text-serializer-bungeecord</include>
-                                    <include>net.kyori:adventure-text-serializer-plain</include>
-                                    <include>net.kyori:adventure-text-serializer-gson</include>
-                                    <include>net.kyori:adventure-text-serializer-json</include>
-                                    <include>net.kyori:adventure-text-serializer-legacy</include>
-                                    <include>net.kyori:adventure-platform-facet</include>
-                                    <include>net.kyori:examination-api</include>
-                                </includes>
-                            </artifactSet>
-                            <!--<relocations>
-                                <relocation>
-                                    <pattern>net.kyori</pattern>
-                                    <shadedPattern>com.mcmiddleearth.base.net.kyori</shadedPattern>
-                                </relocation>
-                            </relocations>-->
-                        </configuration>
-                    </execution>
-                </executions>
             </plugin>
         </plugins>
         <resources>
@@ -90,45 +51,20 @@
         <dependency>
             <groupId>io.papermc.paper</groupId>
             <artifactId>paper-api</artifactId>
-            <version>1.20.4-R0.1-SNAPSHOT</version>
-            <scope>provided</scope>
-        </dependency>
-        <dependency>
-            <groupId>io.github.waterfallmc</groupId>
-            <artifactId>waterfall-api</artifactId>
-            <version>1.20-R0.3-SNAPSHOT</version>
+            <version>26.1.2.build.72-stable</version>
             <scope>provided</scope>
         </dependency>
         <dependency>
             <groupId>com.velocitypowered</groupId>
             <artifactId>velocity-api</artifactId>
-            <version>3.3.0-SNAPSHOT</version>
+            <version>3.4.0-SNAPSHOT</version>
             <scope>provided</scope>
         </dependency>
-        <dependency>
-            <groupId>net.kyori</groupId>
-            <artifactId>adventure-api</artifactId>
-            <version>4.18.0</version>
-        </dependency>
-        <dependency>
-            <groupId>net.kyori</groupId>
-            <artifactId>adventure-text-serializer-plain</artifactId>
-            <version>4.18.0</version>
-        </dependency>
-        <dependency>
-            <groupId>net.kyori</groupId>
-            <artifactId>adventure-text-serializer-gson</artifactId>
-            <version>4.18.0</version>
-        </dependency>
-        <dependency>
-            <groupId>net.kyori</groupId>
-            <artifactId>adventure-text-serializer-legacy</artifactId>
-            <version>4.18.0</version>
-        </dependency>
-        <dependency>
-            <groupId>net.kyori</groupId>
-            <artifactId>adventure-platform-bungeecord</artifactId>
-            <version>4.3.4</version>
-        </dependency>
+        <!-- Adventure (API + gson/legacy/plain serializers) comes transitively from paper-api /
+             velocity-api at the platform's own version, and is no longer shaded (that shade + the
+             adventure-platform-bungeecord bridge went with the Bungee layer). Pinning Adventure
+             explicitly downgraded it below paper 26.1.2's version and hid
+             net.kyori.adventure.text.object.PlayerHeadObjectContents — so it is intentionally
+             left transitive here. -->
     </dependencies>
 </project>
