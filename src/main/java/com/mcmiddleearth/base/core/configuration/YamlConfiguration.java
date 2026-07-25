@@ -19,9 +19,9 @@ public class YamlConfiguration {
 
     public YamlConfiguration(File file) {
         Yaml yaml = new Yaml();
-        try {
-            map = yaml.load(new FileInputStream(file));
-        } catch (FileNotFoundException ex) {
+        try(FileInputStream in = new FileInputStream(file)) {
+            map = yaml.load(in);
+        } catch (IOException ex) {
             Logger.getLogger(YamlConfiguration.class.getName()).log(Level.SEVERE, null, ex);
         }
         if(map == null){
