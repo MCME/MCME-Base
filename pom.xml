@@ -12,6 +12,19 @@
     <name>MCME-Base</name>
 
     <description>Base functionality for MCME plugins</description>
+
+    <!-- Published to the MCME repository (deployment: https://github.com/q220/maven-repo, private). Snapshots are
+         deployed by CI on every push to development, releases when a vX.Y.Z tag is pushed. -->
+    <distributionManagement>
+        <repository>
+            <id>mcme</id>
+            <url>https://repo.mcmiddleearth.com/releases</url>
+        </repository>
+        <snapshotRepository>
+            <id>mcme</id>
+            <url>https://repo.mcmiddleearth.com/snapshots</url>
+        </snapshotRepository>
+    </distributionManagement>
     <properties>
         <java.version>25</java.version>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
@@ -27,6 +40,11 @@
                     <release>${java.version}</release>
                 </configuration>
             </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-deploy-plugin</artifactId>
+                <version>3.1.4</version>
+            </plugin>
         </plugins>
         <resources>
             <resource>
@@ -37,6 +55,11 @@
     </build>
 
     <repositories>
+        <!-- The MCME caching mirror first: builds keep working when an upstream is down. -->
+        <repository>
+            <id>mcme-mirror</id>
+            <url>https://repo.mcmiddleearth.com/mirror</url>
+        </repository>
         <repository>
             <id>papermc-repo</id>
             <url>https://repo.papermc.io/repository/maven-public/</url>

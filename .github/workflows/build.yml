@@ -1,0 +1,67 @@
+name: build
+
+on:
+  push:
+    branches: [master, development]
+    tags: ['v*']
+  pull_request:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: build-${{ github.ref }}
+  cancel-in-progress: ${{ !startsWith(github.ref, 'refs/tags/') }}
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v7
+
+      - name: Set up JDK 25
+        uses: actions/setup-java@v6
+        with:
+          distribution: temurin
+          java-version: '25'
+          cache: maven
+          # Writes ~/.m2/settings.xml with a server whose credentials come from the two
+          # environment variables named here; the deploy steps set them from secrets.
+          server-id: mcme
+          server-username: MCME_MAVEN_NAME
+          server-password: MCME_MAVEN_SECRET
+
+      - name: Build
+        run: mvn -B -ntp verify
+
+      - name: Read project version
+        id: version
+        run: echo "version=$(mvn -q -ntp org.apache.maven.plugins:maven-help-plugin:3.5.2:evaluate -Dexpression=project.version -DforceStdout)" >> "$GITHUB_OUTPUT"
+
+      - name: Check that the tag matches the pom version
+        if: startsWith(github.ref, 'refs/tags/v')
+        run: |
+          if [ "v${{ steps.version.outputs.version }}" != "$GITHUB_REF_NAME" ]; then
+            echo "::error::tag $GITHUB_REF_NAME does not match pom version ${{ steps.version.outputs.version }}"
+            exit 1
+          fi
+
+      - name: Publish snapshot
+        if: github.event_name == 'push' && github.ref == 'refs/heads/development' && endsWith(steps.version.outputs.version, '-SNAPSHOT')
+        run: mvn -B -ntp deploy -DskipTests
+        env:
+          MCME_MAVEN_NAME: ${{ secrets.MCME_MAVEN_NAME }}
+          MCME_MAVEN_SECRET: ${{ secrets.MCME_MAVEN_SECRET }}
+
+      - name: Publish release
+        if: startsWith(github.ref, 'refs/tags/v')
+        run: mvn -B -ntp deploy -DskipTests
+        env:
+          MCME_MAVEN_NAME: ${{ secrets.MCME_MAVEN_NAME }}
+          MCME_MAVEN_SECRET: ${{ secrets.MCME_MAVEN_SECRET }}
+
+      - name: GitHub release
+        if: startsWith(github.ref, 'refs/tags/v')
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: gh release create "$GITHUB_REF_NAME" target/mcme-base-*.jar --title "MCME-Base ${GITHUB_REF_NAME#v}" --generate-notes
